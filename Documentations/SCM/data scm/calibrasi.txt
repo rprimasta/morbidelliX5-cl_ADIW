@@ -1,0 +1,4 @@
+awal 509.97
+akhir 420.31=
+selisih =    89.66
+ lanjut -90.36
