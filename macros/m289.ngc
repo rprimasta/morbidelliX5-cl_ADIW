@@ -1,6 +1,15 @@
 o<m289>sub
 (Mag Prepare)
 
+
+#<req_slot_mag> = [#<P> - 1]	
+#<act_slot_mag> = -1
+
+	M66 E1 L0
+o40	if [#5399 EQ #<req_slot_mag>]	
+o41		return [0]
+o40	endif
+
 o16 if [#<P> GT 12]
 o17	return [0]
 o16 endif
@@ -13,52 +22,43 @@ o18 endif
 o10 if [EXISTS[#<P>]]
 
 ;===================CHECK START MAG IS LOW==================
-	#<off_flag> = 0
-o11	while [#<off_flag> EQ 0]
-		M66 P12 L4 Q1
-o12		if [#5399 EQ 0]
-			#<off_flag> = 1
-o12		else
-			M65 P0
+	M66 P12 L0
+o11	if [#5399 NE 0]
+		M65 P0
+		M66 P12 L4 Q5
+o12		if [#5399 EQ -1]
+			(abort, PLCError : PLC tidak merespon. Line 21 M289)
 o12		endif
-o11	endwhile
+o11	endif
+
  
-;======================ASSIGN T SLOT NUMBER====================
+;======================ASSIGN T SLOT NUMBER====================	
 	
-	#4000 = [#<P> - 1]
-	M68 E0 Q#4000
-o13	while [#5399 NE #4000]
+o13	while [#<act_slot_mag> NE #<req_slot_mag>]
+		M68 E0 Q#<req_slot_mag>
 		M66 E0 L0
-		G04P0.1
+		#<act_slot_mag> = #5399
 o13	endwhile
-
-G04 P0.5
+	
 ;======================START SEARCH====================
-	#<on_flag> = 0
 	M64 P0
-o14	while [#<on_flag> EQ 0]
-		M66 P12 L3 Q1
-o15		if [#5399 EQ 1]
-			#<on_flag> = 1
-o15		else
-			M64 P0
-o15		endif
-o14	endwhile
-
+	M66 P12 L3 Q5
+o15	if [#5399 EQ -1]
+		M65 P0
+		(abort, PLCError : PLC tidak merespon. Line 40 M289)
+o15	endif
 
 ;======================WAIT MAG ON POS====================
 
-#4001 = 1
-o20	while [#5399 NE #4000]
+	M66 P4 L3 Q5
+o20	if [#5399 EQ -1]
+		(abort, PLCError : PLC tidak merespon. Line 46 M289)
+o20	endif
+	#<PV> = -1
+o42	while [#<PV> NE #<req_slot_mag>]	
 		M66 E1 L0
-		G04P0.1
-		#4001 = [#4001+1] 
-		G04P0.2
-o20	endwhile
-
-o10 else
-	(abort, gunakan argumen Pn, n : nomor slot)
-o10 endif
+		#<PV> = #5399
+o42	endwhile
 
 ;===================CHECK START MAG IS LOW==================
 	#<off_flag> = 0
@@ -76,6 +76,13 @@ M66 P18 L3 Q5
 o30 if [#5399 EQ -1]
 	(abort, Posisi mag index meleset)
 o30 endif
+
+
+
+o10 else
+	(abort, gunakan argumen Pn, n : nomor slot)
+o10 endif
+
 
 o<m289>endsub [1]
 m2

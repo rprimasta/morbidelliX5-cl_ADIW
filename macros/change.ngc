@@ -1,12 +1,12 @@
 o<change> sub
 ;=========UNTUK SIMULASI
-
-#<tp_y> = 53.437 ;59.537	abs
-#<tp_z> = [-363.628-1.] ;-353.628abs-354.244-2.
+(debug,#<_hal[plc01.datum_x_ab]>)
+#<tp_y> = #<_hal[plc01.poc_y]> ;53.437 59.537	abs
+#<tp_z> = #<_hal[plc01.poc_z]> ;[-363.628-1.] -353.628abs-354.244-2.
 
 #<tp_y_ret> = 0 	;jarak lepas y poc inc
-#<tp_z_ret> = 52.4 	;jarak lepas z poc inc
-#<approch_fr> = 2500	; tool in speed
+#<tp_z_ret> = #<_hal[plc01.retract_z]> ;52.4 	jarak lepas z poc inc
+#<approch_fr> = #<_hal[plc01.feedrate]> ;2500	 tool in speed
 
 #<max-retry> = 3
 #<max-umbrella-slot> = 12 
