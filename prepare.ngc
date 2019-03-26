@@ -1,0 +1,85 @@
+o<prepare> sub
+
+;=========UNTUK SIMULASI
+;M65 P7
+;M65 P2
+
+#<tp_y> = 58.337		;abs
+#<tp_z> = [-354.244] 		;abs
+
+#<tp_y_ret> = 0 	;jarak lepas y poc inc
+#<tp_z_ret> = 52.4 	;jarak lepas z poc inc
+#<approch_fr> = 2500	; tool in speed
+
+;======tolak T0
+o100 if [#<tool> EQ 0]
+	(debug, tool #<tool> tidak dikenal)
+o102	return [0]
+o100 endif
+
+;======tolak T-code = current-T
+o103 if [#<tool> EQ #4999]
+	(debug, Tool Sama)
+o104	return [1]
+o103 endif
+
+;======get current slot
+M66 E1 L0
+#<curr_poc> = #5399
+
+;======matikan spindle
+M05
+
+;======PULL MAG
+M249
+
+;======cancel comp
+G40 
+G49
+
+;======cek curr-mag eq spindle
+o105 if [#4999 NE #<curr_poc>]
+	M289 P#4999
+o105 endif
+
+;======head pos
+G91G28Z0.
+G91G28B0.C0.
+G90G0G53Y[#<tp_y>]
+G90G0G53Z[#<tp_z>]
+
+;======open mag
+M250
+
+;======mag outil
+M248
+
+;======tool release
+M299
+
+;======tool retract
+G90G1G53Z[#<tp_z> + #<tp_z_ret>] F[#<approch_fr>]
+
+
+;======tool req search
+M289 P#<tool>
+
+;======take tool
+G90G1G53Z[#<tp_z>] F[#<approch_fr>]
+
+;======tool LOCK
+M300
+G04P1.
+;======PULL MAG
+M249
+
+G91G28Z0.
+
+;======CLOSE MAG
+M251
+
+#4999 = #<tool>
+M61 Q#4999
+
+o<prepare> endsub [1]
+m2

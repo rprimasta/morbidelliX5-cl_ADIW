@@ -1,0 +1,10 @@
+o<m250>sub
+(MAG DOOR OPEN)
+	M64 P7
+	M66 P10 L3 Q5
+o11	if [#5399 EQ 0]
+                M699
+		(abort, ERROR : BUKA PINTU MAG GAGAL, SENSOR BUKA PINTU MAG TIDAK MERESPON )
+o11	endif
+o<m250>endsub
+M2

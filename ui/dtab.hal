@@ -1,0 +1,19 @@
+#dtab hal here
+#net prog-is-running  <= halui.program.is-running => dtab.prog-is-run
+#net prog-is-idle halui.program.is-idle => dtab.prog-is-idle
+net table-ab-ready dtab.hal_led_vp_ab <= plc01.S16
+net table-cd-ready dtab.hal_led_vp_cd <= plc01.S17
+
+net tbl-ab-enable dtab.hal_tbl_ab_active => plc01.B31
+net tbl-cd-enable dtab.hal_tbl_cd_active => plc01.B32
+
+net cstart-a dtab.hal_start_a => plc01.S52
+net cstart-b dtab.hal_start_b => plc01.S53
+net cstart-c dtab.hal_start_c => plc01.S54
+net cstart-d dtab.hal_start_d => plc01.S55
+
+net tbl-ab-lock dtab.hal_tbl_ab_lock => plc01.B80
+net tbl-cd-lock dtab.hal_tbl_cd_lock => plc01.B81
+
+net abort_signal motion.digital-out-60 => dtab.abort_signal
+net mach-on dtab.machine-on <= halui.machine.is-on

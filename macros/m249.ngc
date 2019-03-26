@@ -1,0 +1,16 @@
+o<m249>sub
+(MAG PULL)
+
+o11	if [#4998 EQ 1]
+		M65 P2
+		M66 P11 L1 Q5
+o13		if [#5399 EQ -1]
+                        M699
+			(abort, ERROR : SENSOR GESER KE Y POSITIF GAGAL, PASTIKAN SENSOR PADA POSISI YANG BENAR)
+o13		else 
+			#4998 = 0
+o13		endif
+o11	endif	
+
+o<m249>endsub
+M2

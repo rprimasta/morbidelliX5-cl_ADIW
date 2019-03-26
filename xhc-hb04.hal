@@ -1,0 +1,85 @@
+
+# Home button
+net home halui.home-all <= hal_mpg.button-home
+
+net safe-z hal_mpg.button-safe-z => halui.mdi-command-03
+net parking-right hal_mpg.button-step => halui.mdi-command-01
+net parking-left hal_mpg.button-continuous => halui.mdi-command-02
+
+net feed-ov-inc hal_mpg.button-feed-inc => halui.feed-override.increase
+net feed-ov-dec hal_mpg.button-feed-dec => halui.feed-override.decrease
+net spindle-ov-inc hal_mpg.button-spindle-inc => halui.spindle-override.increase
+net spindle-ov-dec hal_mpg.button-spindle-dec => halui.spindle-override.decrease
+
+net tclamp hal_mpg.button-probe-z => halui.mdi-command-04
+net tuclamp hal_mpg.button-macro10 => halui.mdi-command-05
+# Absolute position LCD
+#net pos-x halui.axis.0.pos-feedback => xhc-hb04.x.pos-absolute
+#net pos-y halui.axis.1.pos-feedback => xhc-hb04.y.pos-absolute
+#net pos-z halui.axis.2.pos-feedback => xhc-hb04.z.pos-absolute
+#net pos-a halui.axis.3.pos-feedback => xhc-hb04.a.pos-absolute
+
+# Relative position LCD
+#net pos-rel-x halui.axis.0.pos-relative => xhc-hb04.x.pos-relative
+#net pos-rel-y halui.axis.1.pos-relative => xhc-hb04.y.pos-relative
+#net pos-rel-z halui.axis.2.pos-relative => xhc-hb04.z.pos-relative
+#net pos-rel-a halui.axis.3.pos-relative => xhc-hb04.a.pos-relative
+
+# Jog wheel and axis selection button
+net jog-x axis.0.jog-enable <= hal_mpg.select-x
+net jog-y axis.1.jog-enable <= hal_mpg.select-y
+net jog-z axis.2.jog-enable <= hal_mpg.select-z
+net jog-b axis.4.jog-enable <= hal_mpg.select-b
+net jog-c axis.5.jog-enable <= hal_mpg.select-c
+
+setp axis.0.jog-vel-mode 1
+net jog-scale hal_mpg.jog-scale => axis.0.jog-scale axis.1.jog-scale axis.2.jog-scale axis.4.jog-scale axis.5.jog-scale
+net jog-counts hal_mpg.wheel-count => axis.0.jog-counts axis.1.jog-counts axis.2.jog-counts axis.4.jog-counts axis.5.jog-counts
+#setp halui.jog-speed 0.05
+#net jog-speed  halui.jog-speed <= halui.max-velocity.value
+
+# Wheel for feedrate and spindle
+#setp halui.feed-override.scale 0.01
+#net jog-counts => halui.feed-override.counts
+#net jog-feed halui.feed-override.count-enable <= xhc-hb04.jog.enable-feed-override
+#net jog-feed2 halui.feed-override.value => xhc-hb04.feed-override
+
+#setp halui.spindle-override.scale 0.01
+#net jog-counts => halui.spindle-override.counts
+#net jog-spindle halui.spindle-override.count-enable <= xhc-hb04.jog.enable-spindle-override
+#net jog-spindle2 halui.spindle-override.value => xhc-hb04.spindle-override
+#net spindle-rps motion.spindle-speed-cmd-rps => xhc-hb04.spindle-rps
+
+# RESET/ESTOP button
+net estop hal_mpg.button-reset => halui.estop.activate
+
+# Program control
+
+loadrt flipflop names=flipflop_resume,flipflop_pause,flipflop_run
+
+addf flipflop_resume servo-thread
+addf flipflop_pause servo-thread
+addf flipflop_run servo-thread
+
+net button-stop hal_mpg.button-stop => halui.program.stop
+net button-start-pause hal_mpg.button-rewind => flipflop_pause.clk flipflop_resume.clk flipflop_run.clk
+
+net is-paused halui.program.is-paused => flipflop_resume.data flipflop_pause.reset
+net is-running halui.program.is-running => flipflop_pause.data flipflop_run.reset flipflop_resume.reset
+net is-idle halui.program.is-idle => flipflop_run.data
+
+net resume flipflop_resume.out => halui.program.resume
+net pause flipflop_pause.out => halui.program.pause
+#net run flipflop_run.out => halui.program.run
+
+#net step xhc-hb04.button-rewind => halui.program.step
+
+# X=0, Y=0, Z=0 
+#net x0 halui.mdi-command-06 xhc-hb04.button-x0
+#net y0 halui.mdi-command-07 xhc-hb04.button-y0
+#net z0 halui.mdi-command-08 xhc-hb04.button-z0
+#net origin halui.mdi-command-09 xhc-hb04.button-goto-zero
+#net safe-z halui.mdi-command-10 xhc-hb04.button-safe-z
+#net park halui.mdi-command-11 xhc-hb04.button-x2
+
+

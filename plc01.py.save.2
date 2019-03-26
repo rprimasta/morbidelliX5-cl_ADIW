@@ -1,0 +1,77 @@
+#!/usr/bin/python
+from pymodbus.client.sync import ModbusSerialClient as ModbusClient
+from pymodbus.register_read_message import ReadInputRegistersResponse
+from pprint import pprint
+import time
+import linuxcnc, hal
+
+START_ADDR = 2048#M0
+S_CNT = 20
+B_CNT = 20
+plc01 = hal.component("plc01")
+#CNC <- PLC
+plc01.newpin("S0", hal.HAL_BIT,hal.HAL_OUT) #PLC READY
+plc01.newpin("S1", hal.HAL_BIT,hal.HAL_OUT) #EXT STOP
+plc01.newpin("S2", hal.HAL_BIT,hal.HAL_OUT) #ALARM 
+plc01.newpin("S3", hal.HAL_BIT,hal.HAL_OUT) #PLC_BUSY
+plc01.newpin("S4", hal.HAL_BIT,hal.HAL_OUT) #SPINDLE ON SPD
+plc01.newpin("S5", hal.HAL_BIT,hal.HAL_OUT) #SPINDLE ZERO
+plc01.newpin("S6", hal.HAL_BIT,hal.HAL_OUT) #OT-X
+plc01.newpin("S7", hal.HAL_BIT,hal.HAL_OUT) #OT-Y
+plc01.newpin("S8", hal.HAL_BIT,hal.HAL_OUT) #OT-Z
+plc01.newpin("S9", hal.HAL_BIT,hal.HAL_OUT) #OT-B
+plc01.newpin("S10", hal.HAL_BIT,hal.HAL_OUT) #OT-C
+plc01.newpin("S11", hal.HAL_BIT,hal.HAL_OUT) #MAG-HOMED
+plc01.newpin("S12", hal.HAL_BIT,hal.HAL_OUT) #MAG WAIT/ BUSY
+plc01.newpin("S13", hal.HAL_BIT,hal.HAL_OUT) #MAG ON POS
+plc01.newpin("S14", hal.HAL_BIT,hal.HAL_OUT) #MAG SLOT NOT EXIST
+plc01.newpin("S15", hal.HAL_BIT,hal.HAL_OUT) #
+plc01.newpin("S16", hal.HAL_BIT,hal.HAL_OUT) #
+plc01.newpin("S17", hal.HAL_BIT,hal.HAL_OUT) #
+plc01.newpin("S18", hal.HAL_BIT,hal.HAL_OUT) #
+plc01.newpin("S19", hal.HAL_BIT,hal.HAL_OUT) #
+
+#CNC -> PLC
+plc01.newpin("B20", hal.HAL_BIT,hal.HAL_IN) #MACHINE RST
+plc01.newpin("B21", hal.HAL_BIT,hal.HAL_IN) #MACHINE ON
+plc01.newpin("B22", hal.HAL_BIT,hal.HAL_IN) #SPINDLE_ON
+plc01.newpin("B23", hal.HAL_BIT,hal.HAL_IN) #SPINDLE_REV
+plc01.newpin("B24", hal.HAL_BIT,hal.HAL_IN) #SPINDLE_RST
+plc01.newpin("B25", hal.HAL_BIT,hal.HAL_IN) #SPINDLE_STOPED
+plc01.newpin("B26", hal.HAL_BIT,hal.HAL_IN) #MAG SEARCH
+plc01.newpin("B27", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B28", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B29", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B30", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B31", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B32", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B33", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B34", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B35", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B36", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B37", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B38", hal.HAL_BIT,hal.HAL_IN) #
+plc01.newpin("B39", hal.HAL_BIT,hal.HAL_IN) #
+
+
+client= ModbusClient(method = "ascii", port="/dev/ttyS0", stopbits = 1, bytesize = 7, parity = 'E', baudrate= 9600)
+connection = client.connect()
+
+print(B_CNT)
+pinout = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+try:
+	time.sleep(2)
+	plc01.ready()
+	while True:
+		result= client.read_discrete_inputs(START_ADDR,20,unit= 1)
+#		print(result.bits)
+		for x in range(0, S_CNT):
+			plc01['S' + str(x)] = result.bits[x]
+		for x in range(0, B_CNT):
+			pinout[x] = plc01['B' + str(S_CNT + x)]
+		client.write_coils(START_ADDR+S_CNT,pinout,unit=1)
+		time.sleep(0.025)
+
+except KeyboardInterrupt:
+	client.close()

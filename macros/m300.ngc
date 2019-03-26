@@ -1,0 +1,33 @@
+o<m300>sub
+
+(TOOL CLAMP)
+
+;======================ASSIGN ON TOOL UNCLAMP====================
+	#<flag> = 0
+	M65 P1
+o10	while [#<flag> EQ 0]
+		M66 P13 L4 Q1
+o11		if [#5399 EQ 0]
+			#<flag> = 1
+o11		else
+			M65 P1
+o11		endif
+o10	endwhile
+
+	
+	#<gretry> = 0
+o13	while [#<gretry> EQ 0]
+
+		M66 P5 L4 Q1
+o14		if [#5399 EQ 0]
+			#<gretry> = 1
+o14		endif
+
+o13	endwhile
+
+
+
+
+
+o<m300>endsub
+m2

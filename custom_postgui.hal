@@ -1,0 +1,7 @@
+# Include your customized HAL commands here
+# The commands in this file are run after the AXIS GUI (including PyVCP panel) starts
+
+#sets spindle-at-speed true
+#net startup-mdi halui.machine.on halui.mdi-command-00
+#net tool-change-loop halui.mdi-command-01
+net dhood-up-detect    motion.digital-in-17 <= plc01.S51 => emc01.dhoodup

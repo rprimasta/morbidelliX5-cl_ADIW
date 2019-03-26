@@ -1,0 +1,12 @@
+o<m301>sub
+(TOOL PLUG CHECKING)
+
+		M66 P16 L3 Q4
+o11		if [#5399 EQ 1]
+o13			return [0] ; HAS A TOOL
+o11		else
+o14			return [1] ; HAS NO TOOL
+o11		endif
+		
+o<m301>endsub
+m2

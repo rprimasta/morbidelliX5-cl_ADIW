@@ -1,0 +1,178 @@
+# Basic 5i25/7i77 configuration
+
+# kinematics
+loadrt trivkins
+
+# motion controller
+loadrt motmod servo_period_nsec=1200000 num_joints=[TRAJ]AXES num_dio=64
+
+# hostmot2 driver
+# if you have any firmware trouble, enable the debug flags here and see what's going on in the syslog
+#loadrt hostmot2 debug_idrom=1 debug_module_descriptors=1 debug_pin_descriptors=1 debug_modules=1
+loadrt hostmot2
+
+# load low-level driver
+loadrt hm2_pci config="num_encoders=5 sserial_port_0=003xxx"
+
+# pid
+loadrt pid num_chan=6 
+
+setp hm2_5i25.0.watchdog.timeout_ns 10000000
+
+
+
+#======AXIS=======
+# Threads
+addf hm2_5i25.0.read         servo-thread
+addf motion-command-handler               servo-thread
+addf motion-controller                    servo-thread
+addf pid.0.do-pid-calcs servo-thread
+addf pid.1.do-pid-calcs servo-thread
+addf pid.2.do-pid-calcs servo-thread
+addf pid.4.do-pid-calcs servo-thread
+addf pid.5.do-pid-calcs servo-thread
+
+addf hm2_5i25.0.write        servo-thread
+#addf hm2_5i25.0.pet_watchdog servo-thread
+
+# X Axis
+setp hm2_5i25.0.encoder.00.scale [AXIS_0]INPUT_SCALE
+setp hm2_5i25.0.encoder.00.filter 0
+setp pid.0.Pgain [AXIS_0]P
+setp pid.0.Igain [AXIS_0]I
+setp pid.0.Dgain [AXIS_0]D
+setp pid.0.FF0 [AXIS_0]FF0
+setp pid.0.FF1 [AXIS_0]FF1
+setp pid.0.FF2 [AXIS_0]FF2
+
+setp pid.0.deadband [AXIS_0]DEADBAND
+setp pid.0.error-previous-target true
+
+net x-axis-enable pid.0.enable <= axis.0.amp-enable-out
+net x-axis-fault axis.0.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-16-not
+net x-axis-enable hm2_5i25.0.7i77.0.1.analogena hm2_5i25.0.7i77.0.1.spinena 
+net x-axis-fb pid.0.feedback <= hm2_5i25.0.encoder.00.position
+net x-axis-fb axis.0.motor-pos-fb
+net x-axis-pos-cmd axis.0.motor-pos-cmd => pid.0.command
+net x-axis-command  pid.0.output  =>  hm2_5i25.0.7i77.0.1.analogout0
+
+#net x-jog-select axis.0.jog-enable <= hm2_5i25.0.7i77.0.0.input-00
+net x-limits <= hm2_5i25.0.7i77.0.0.input-05-not
+net x-limits => axis.0.pos-lim-sw-in axis.0.neg-lim-sw-in
+net x-home hm2_5i25.0.7i77.0.0.input-00 => axis.0.home-sw-in
+
+
+# Y Axis
+setp hm2_5i25.0.encoder.01.scale [AXIS_1]INPUT_SCALE
+setp hm2_5i25.0.encoder.01.filter 0
+setp pid.1.Pgain [AXIS_1]P
+setp pid.1.Igain [AXIS_1]I
+setp pid.1.Dgain [AXIS_1]D
+setp pid.1.FF0 [AXIS_1]FF0
+setp pid.1.FF1 [AXIS_1]FF1
+setp pid.1.FF2 [AXIS_1]FF2
+setp pid.1.deadband [AXIS_1]DEADBAND
+setp pid.1.error-previous-target true
+
+
+net y-axis-enable pid.1.enable <= axis.1.amp-enable-out
+net y-axis-fault axis.1.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-17-not
+net y-axis-fb axis.1.motor-pos-fb <= hm2_5i25.0.encoder.01.position
+net y-axis-fb pid.1.feedback <= hm2_5i25.0.encoder.01.position
+net y-axis-fb axis.1.motor-pos-fb
+net y-axis-pos-cmd axis.1.motor-pos-cmd => pid.1.command
+net y-axis-command  pid.1.output  =>  hm2_5i25.0.7i77.0.1.analogout1
+
+#net y-jog-select axis.1.jog-enable <= hm2_5i25.0.7i77.0.0.input-01
+net y-limits <= hm2_5i25.0.7i77.0.0.input-06-not
+net y-limits => axis.1.pos-lim-sw-in axis.1.neg-lim-sw-in
+net y-home hm2_5i25.0.7i77.0.0.input-01 => axis.1.home-sw-in
+
+# Z Axis
+setp hm2_5i25.0.encoder.02.scale [AXIS_2]INPUT_SCALE
+setp hm2_5i25.0.encoder.02.filter 0
+setp pid.2.Pgain [AXIS_2]P
+setp pid.2.Igain [AXIS_2]I
+setp pid.2.Dgain [AXIS_2]D
+setp pid.2.FF0 [AXIS_2]FF0
+setp pid.2.FF1 [AXIS_2]FF1
+setp pid.2.FF2 [AXIS_2]FF2
+setp pid.2.deadband [AXIS_2]DEADBAND
+setp pid.2.error-previous-target true
+
+
+net z-axis-enable pid.2.enable <= axis.2.amp-enable-out => hm2_5i25.0.7i77.0.0.output-00
+net z-axis-fault axis.2.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-18-not
+net z-axis-fb axis.2.motor-pos-fb <= hm2_5i25.0.encoder.02.position
+net z-axis-fb pid.2.feedback <= hm2_5i25.0.encoder.02.position
+net z-axis-fb axis.2.motor-pos-fb
+net z-axis-pos-cmd axis.2.motor-pos-cmd => pid.2.command
+net z-axis-command  pid.2.output  =>  hm2_5i25.0.7i77.0.1.analogout2
+
+net z-limits <= hm2_5i25.0.7i77.0.0.input-07-not
+net z-limits => axis.2.pos-lim-sw-in axis.2.neg-lim-sw-in
+net z-home hm2_5i25.0.7i77.0.0.input-02 => axis.2.home-sw-in
+
+
+# b Axis
+setp hm2_5i25.0.encoder.03.scale [AXIS_4]INPUT_SCALE
+setp hm2_5i25.0.encoder.03.filter 0
+setp pid.4.Pgain [AXIS_4]P
+setp pid.4.Igain [AXIS_4]I
+setp pid.4.Dgain [AXIS_4]D
+setp pid.4.FF0 [AXIS_4]FF0
+setp pid.4.FF1 [AXIS_4]FF1
+setp pid.4.FF2 [AXIS_4]FF2
+setp pid.4.deadband [AXIS_4]DEADBAND
+setp pid.4.error-previous-target true
+
+
+net b-axis-enable pid.4.enable <= axis.4.amp-enable-out => hm2_5i25.0.7i77.0.0.output-01
+net b-axis-fault axis.4.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-19-not
+net b-axis-fb axis.4.motor-pos-fb <= hm2_5i25.0.encoder.03.position
+net b-axis-fb pid.4.feedback <= hm2_5i25.0.encoder.03.position
+net b-axis-fb axis.4.motor-pos-fb
+net b-axis-pos-cmd axis.4.motor-pos-cmd => pid.4.command
+net b-axis-command  pid.4.output  =>  hm2_5i25.0.7i77.0.1.analogout3
+
+net b-limits <= hm2_5i25.0.7i77.0.0.input-08-not
+net b-limits => axis.4.pos-lim-sw-in axis.4.neg-lim-sw-in
+net b-home hm2_5i25.0.7i77.0.0.input-03 => axis.4.home-sw-in
+
+# c Axis
+setp hm2_5i25.0.encoder.04.scale [AXIS_5]INPUT_SCALE
+setp hm2_5i25.0.encoder.04.filter 0
+setp pid.5.Pgain [AXIS_5]P
+setp pid.5.Igain [AXIS_5]I
+setp pid.5.Dgain [AXIS_5]D
+setp pid.5.FF0 [AXIS_5]FF0
+setp pid.5.FF1 [AXIS_5]FF1
+setp pid.5.FF2 [AXIS_5]FF2
+setp pid.5.deadband [AXIS_5]DEADBAND
+setp pid.5.error-previous-target true
+
+
+net c-axis-enable pid.5.enable <= axis.5.amp-enable-out
+net c-axis-fault axis.5.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-20-not
+net c-axis-fb axis.5.motor-pos-fb <= hm2_5i25.0.encoder.04.position
+net c-axis-fb pid.5.feedback <= hm2_5i25.0.encoder.04.position
+net c-axis-fb axis.5.motor-pos-fb
+net c-axis-pos-cmd axis.5.motor-pos-cmd => pid.5.command
+net c-axis-command  pid.5.output  =>  hm2_5i25.0.7i77.0.1.analogout4
+
+net c-limits <= hm2_5i25.0.7i77.0.0.input-09-not
+net c-limits => axis.5.pos-lim-sw-in axis.5.neg-lim-sw-in
+net c-home hm2_5i25.0.7i77.0.0.input-04 => axis.5.home-sw-in
+
+
+#======SPINDLE=======
+loadrt scale count=1
+addf scale.0 servo-thread
+setp scale.0.gain 0.0004211944
+#0.00041666667
+net spindle-speed-scale motion.spindle-speed-out => scale.0.in
+net spindle-speed-DAC scale.0.out => hm2_5i25.0.7i77.0.1.analogout5
+net spindle-fwd motion.spindle-forward => hm2_5i25.0.7i77.0.0.output-02
+net spindle-rev motion.spindle-reverse => hm2_5i25.0.7i77.0.0.output-03
+net spindle-at-speed motion.spindle-at-speed <= hm2_5i25.0.7i77.0.0.input-11
+

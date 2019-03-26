@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-gb"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="keywords" content="motion.digital -- reset">
+	<meta name="rights" content="All content is owned by the original author.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="motion.digital -- reset">
+	<meta name="twitter:description" content="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?...">
+	<meta name="robots" content="index, follow">
+	<meta property="og:url" content="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="motion.digital -- reset">
+	<meta property="og:author" content="k-1">
+	<meta property="og:description" content="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?...">
+	<meta property="og:image" content="https://forum.linuxcnc.org//media/kunena/email/hero-wide.png">
+	<meta property="article:published_time" content="2017-04-26T00:25:17+00:00">
+	<meta property="article:section" content="HAL">
+	<meta property="twitter:image" content="https://forum.linuxcnc.org//media/kunena/email/hero-wide.png">
+	<meta name="description" content="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?...">
+	<meta name="generator" content="Joomla! - Open Source Content Management - Version 3.9.1">
+	<title>motion.digital -- reset - LinuxCNC</title>
+	<link href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" rel="next">
+	<link href="https://forum.linuxcnc.org/topics/posts?format=feed&amp;type=rss" rel="alternate" type="application/rss+xml">
+	<link href="https://forum.linuxcnc.org/templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="gscreen%20python_files/kunena.css" rel="stylesheet">
+	<link href="gscreen%20python_files/jquery.css" rel="stylesheet">
+	<link href="gscreen%20python_files/template_002.css" rel="stylesheet">
+	<link href="gscreen%20python_files/bootstrap.css" rel="stylesheet">
+	<link href="gscreen%20python_files/fontawesome.css" rel="stylesheet">
+	<link href="gscreen%20python_files/template.css" rel="stylesheet">
+	<style>
+		/* Kunena Custom CSS */		.layout#kunena [class*="category"] i,
+		.layout#kunena .glyphicon-topic,
+		.layout#kunena h3 i,
+		.layout#kunena #kwho i.icon-users,
+		.layout#kunena#kstats i.icon-bars { color: inherit; }		.layout#kunena [class*="category"] .knewchar { color: #48a348 !important; }
+		.layout#kunena sup.knewchar { color: #48a348 !important; }
+		.layout#kunena .topic-item-unread { border-left-color: #48a348 !important;}
+		.layout#kunena .topic-item-unread .icon { color: #48a348 !important;}
+		.layout#kunena .topic-item-unread i.fa { color: #48a348 !important;}
+		.layout#kunena .topic-item-unread svg { color: #48a348 !important;}
+		.layout#kunena + div { display: block !important;}
+		#kunena + div { display: block !important;}
+	body.site {
+		border-top: 3px solid #0088cc;
+		background-color: #f4f6f7;
+	}
+	a {
+		color: #0088cc;
+	}
+	.nav-list > .active > a,
+	.nav-list > .active > a:hover,
+	.dropdown-menu li > a:hover,
+	.dropdown-menu .active > a,
+	.dropdown-menu .active > a:hover,
+	.nav-pills > .active > a,
+	.nav-pills > .active > a:hover,
+	.btn-primary {
+		background: #0088cc;
+	}
+pre { max-height: 360px; overflow-y: auto; }
+	</style>
+	<script type="application/json" class="joomla-script-options loaded">{"csrf.token":"d5f28fa5ca97df710ff88d07ae0f78cc","system.paths":{"root":"","base":""},"joomla.jtext":{"COM_KUNENA_RATE_LOGIN":"You need to be logged in to rate topic","COM_KUNENA_RATE_NOT_YOURSELF":"You cannot rate your own topic","COM_KUNENA_RATE_ALLREADY":"You have already rated this topic","COM_KUNENA_RATE_SUCCESSFULLY_SAVED":"Your rating has been successfully saved","COM_KUNENA_RATE_NOT_ALLOWED_WHEN_BANNED":"You cannot add rate when banned","COM_KUNENA_SOCIAL_EMAIL_LABEL":"E-mail","COM_KUNENA_SOCIAL_TWITTER_LABEL":"Tweet","COM_KUNENA_SOCIAL_FACEBOOK_LABEL":"Facebook","COM_KUNENA_SOCIAL_GOOGLEPLUS_LABEL":"Google+","COM_KUNENA_SOCIAL_LINKEDIN_LABEL":"LinkedIn","COM_KUNENA_SOCIAL_PINTEREST_LABEL":"Pinterest","COM_KUNENA_SOCIAL_STUMBLEUPON_LABEL":"Stumbleupon","COM_KUNENA_SOCIAL_WHATSAPP_LABEL":"WhatsApp"},"system.keepalive":{"interval":840000,"uri":"\/component\/ajax\/?format=json"}}</script>
+	<script src="gscreen%20python_files/jquery_002.js"></script>
+	<script src="gscreen%20python_files/jquery-noconflict.js"></script>
+	<script src="gscreen%20python_files/jquery-migrate.js"></script>
+	<script src="gscreen%20python_files/bootstrap.js"></script>
+	<script src="gscreen%20python_files/main-min.js"></script>
+	<script src="gscreen%20python_files/topic-min.js"></script>
+	<script src="gscreen%20python_files/core.js"></script>
+	<script src="gscreen%20python_files/jquery.js"></script>
+	<script src="gscreen%20python_files/jquery_003.js"></script>
+	<script src="gscreen%20python_files/template.js"></script>
+	<!--[if lt IE 9]><script src="/media/jui/js/html5.js?e60964a3d855d996790e4eaa6906fe3a"></script><![endif]-->
+	<!--[if lt IE 9]><script src="/media/system/js/polyfill.event.js?e60964a3d855d996790e4eaa6906fe3a"></script><![endif]-->
+	<script src="gscreen%20python_files/keepalive.js"></script>
+	<script>
+jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); function initTooltips (event, container) { container = container || document;$(container).find(".hasTooltip").tooltip({"html": true,"container": "body"});} });
+jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });
+	</script>
+	<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "DiscussionForumPosting",
+    "id": "https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset",
+    "headline": "motion.digital -- reset",
+    "image": "https://forum.linuxcnc.org//media/kunena/email/hero-wide.png",
+    "author": {
+        "@type": "Person",
+        "name": "k-1"
+    },
+    "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": "InteractionCounter",
+        "userInteractionCount": 11
+    }
+}
+	</script>
+
+</head>
+<body class="site com_kunena view-topic layout-default no-task itemid-308">
+	<!-- Body -->
+	<div class="body" id="top">
+		<div class="container">
+			<!-- Header -->
+			<header class="header" role="banner">
+				<div class="header-inner clearfix">
+					<a class="brand pull-left" href="https://forum.linuxcnc.org/">
+						<img src="gscreen%20python_files/linuxcnc_logo.png" alt="LinuxCNC Forum">													<div class="site-description">LinuxCNC Forum</div>											</a>
+					<div class="header-search pull-right">
+						
+					</div>
+				</div>
+			</header>
+							<nav class="navigation" role="navigation">
+					<div class="navbar pull-left">
+						<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="element-invisible">Toggle Navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+					</div>
+					<div class="nav-collapse">
+						<form action="https://forum.linuxcnc.org/cb-login" method="post" id="login-form" class="form-inline cbLoginForm">
+	<input name="option" value="com_comprofiler" type="hidden">
+	<input name="view" value="login" type="hidden">
+	<input name="op2" value="login" type="hidden">
+	<input name="return" value="B:aHR0cHM6Ly9mb3J1bS5saW51eGNuYy5vcmcvMjQtaGFsLWNvbXBvbmVudHMvMzI3MDUtbW90aW9uLWRpZ2l0YWwtcmVzZXQ=" type="hidden">
+	<input name="message" value="0" type="hidden">
+	<input name="loginfrom" value="loginmodule" type="hidden">
+	<input name="cbsecuritym3" value="cbm_3e13c772_6e4ddbe8_ff0387da96eeb98785f25d32e665661b" type="hidden">
+						<span class="userdata">
+			<span id="form-login-username">
+																					<div class="input-prepend input-append">
+							<span class="add-on">
+								<span class="cb_template cb_template_default">
+									<span class="cbModuleUsernameIcon fa fa-user" title="Username"></span>
+								</span>
+							</span>
+							<input id="modlgn-username" name="username" class="input-small" size="14" placeholder="Username" type="text">
+						</div>
+												</span>
+			&nbsp;
+			<span id="form-login-password">
+																					<div class="input-prepend input-append">
+							<span class="add-on">
+								<span class="cb_template cb_template_default">
+									<span class="cbModulePasswordIcon fa fa-lock" title="Password"></span>
+								</span>
+							</span>
+							<input id="modlgn-passwd" name="passwd" class="input-small" size="14" placeholder="Password" type="password">
+						</div>
+												</span>
+			&nbsp;
+										<span id="form-login-remember">
+					<label for="modlgn-remember" class="col-form-label">Remember Me</label>
+					<input id="modlgn-remember" name="remember" class="inputbox" value="yes" type="checkbox">
+				</span>
+				&nbsp;
+									<span id="form-login-submit">
+				<button type="submit" name="Submit" class="btn btn-primary">
+																Log in									</button>
+			</span>
+			&nbsp;
+					</span>
+				<span id="form-login-links">
+							<span id="form-login-forgot">
+					<a href="https://forum.linuxcnc.org/cb-forgot-login">
+																			Forgot Login?											</a>
+				</span>
+				&nbsp;
+										<span id="form-login-register">
+					<a href="https://forum.linuxcnc.org/cb-registration">
+																			Sign up											</a>
+				</span>
+				&nbsp;
+					</span>
+				</form>
+
+					</div>
+				</nav>
+						
+			<div class="row-fluid">
+								<main id="content" role="main" class="span12">
+					<!-- Begin Content -->
+					
+					<div id="system-message-container">
+	</div>
+
+					
+<div id="kunena" class="layout ">
+	
+<!-- /var/www/html/templates/protostar/html/com_kunena/layouts/widget/menubar/default.php -->
+<!-- Edited to reenable login / menu on mobile devices (jepler 2018) -->
+<div class="navbar" itemscope="" itemtype="https://schema.org/SiteNavigationElement">
+	<div class="navbar-inner">
+		
+<ul class="nav">
+	<li class="item-309"><a href="https://forum.linuxcnc.org/forum/index">Index</a></li><li class="item-310"><a href="https://forum.linuxcnc.org/forum/recent">Recent Topics</a></li><li class="item-316"><a href="https://forum.linuxcnc.org/forum/search">Search</a></li><li class="item-331"><a href="http://linuxcnc.org/">www.linuxcnc.org</a></li></ul>
+			</div>
+</div>
+
+	<ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+		<li class="active" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+			<span title="" data-original-title="" class="icon icon-home hasTooltip" aria-hidden="true"></span>			<a itemprop="item" href="https://forum.linuxcnc.org/8-configuring-linuxcnc"><span itemprop="name">Configuring LinuxCNC</span></a>
+			<meta itemprop="position" content="1">
+		</li>
+
+					<li class="divider"><span class="icon icon-chevron-right" aria-hidden="true"></span></li>
+			<li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="https://forum.linuxcnc.org/24-hal-components"><span itemprop="name">HAL</span></a>
+				<meta itemprop="position" content="2">
+			</li>
+					<li class="divider"><span class="icon icon-chevron-right" aria-hidden="true"></span></li>
+			<li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset"><span itemprop="name">motion.digital -- reset</span></a>
+				<meta itemprop="position" content="3">
+			</li>
+		
+	</ol>
+
+<div class="kunena-topic-item ">
+	
+	<h1>
+		<span class="icon-topic icon icon-file"></span>				motion.digital -- reset		
+	</h1>
+
+	<div>
+
+	<div class="clearfix"></div>
+	<div class="btn-toolbar" id="topic-actions">
+		<div>
+			
+					</div>
+	</div>
+</div>
+
+	<div class="pull-left">
+		
+<div class="pagination hidden-phone">
+	<ul>
+		<li><a class="disabled">Start</a></li><li><a class="disabled">Prev</a></li><li class="active"><a>1</a></li><li><a data-original-title="Page:2" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">2</a></li><li><a data-original-title="Page:Next" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">Next</a></li><li><a data-original-title="Page:End" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">End</a></li>	</ul>
+</div>
+
+<div class="pagination test visible-phone">
+	<ul>
+		<li class="active"><a>1</a></li><li><a data-original-title="Page:2" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">2</a></li>	</ul>
+</div>
+	</div>
+
+	<h2 class="pull-right">
+		
+<form action="/24-hal-components/32705-motion-digital-reset" method="post" class="form-search pull-right">
+	<input name="view" value="search" type="hidden">
+	<input name="task" value="results" type="hidden">
+
+	
+			<input name="ids[]" value="32705" type="hidden">
+	
+	<input name="childforums" value="1" type="hidden">
+	<input name="d5f28fa5ca97df710ff88d07ae0f78cc" value="1" type="hidden">
+	<div class="input-append">
+		<input class="input-medium search-query" name="query" placeholder="Search" type="text">
+		<button class="btn btn-default" type="submit"><span class="icon icon-search" aria-hidden="true"></span></button>
+	</div>
+</form>
+	</h2>
+
+	<div class="clearfix"></div>
+
+	
+	
+		<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="">k-1</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title=""><img class="img-circle" src="gscreen%20python_files/tn19275_59b4f373c3100.png" alt="k-1's Avatar" height="144" width="144"></a>									<span class="hidden-phone topic-starter topic-starter-circle">Topic Author</span>
+								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 627					</li>
+				
+				
+									<li>
+						Thank you received: 13					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 8 months ago">26 Apr 2017 00:25</span>				<a href="#92113" id="92113" rel="canonical">#92113</a>
+		<span class="visible-phone">by <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				<em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em> was created by <em><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></em>			</div>
+
+			<div class="kmsg">
+				I have never faced the topic and did not find anything useful .... 
+but there is a way to reset all motion.digital pin to "0" state ... eg 
+when the program ends?<br>
+<br>
+For shure is possible use and comp for make a and statement with 
+"motion.digital.out-00 &amp; halui.machine.is-running" for example .... 
+but if I use 32 i/o It's a bit uncomfortable ...<br>
+If there are any of these I'm happy to make a new rt-comp for these ....<br>
+<br>
+regards<br>
+Giorgio			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="">andypugh</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title=""><img class="img-circle" src="gscreen%20python_files/tn723_58050b4f4cfc7.jpg" alt="andypugh's Avatar" height="144" width="144"></a>								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" class="label label-success hasTooltip">
+	Online</a>
+			</li>
+		
+					<li>
+				Moderator			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rankmod.gif" alt="Moderator" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 15259					</li>
+				
+									<li>
+						Karma: 297					</li>
+				
+									<li>
+						Thank you received: 2299					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 8 months ago">27 Apr 2017 14:13</span>				<a href="#92212" id="92212" rel="canonical">#92212</a>
+		<span class="visible-phone">by <a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></span>
+	</small>
+
+	<div class="badger-left badger-info  badger-moderator  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				I was expecting M2 to do this, but I can't see it in the code.<br>
+<br>
+You could remap M75 (for example) to do a loop of M65 Pn commands.			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View rodw's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/rodw" title="">rodw</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View rodw's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/rodw" title=""><img class="img-circle" src="gscreen%20python_files/tn20660_580684c49e200.jpg" alt="rodw's Avatar" height="144" width="144"></a>								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/rodw" title="" class="label label-warning hasTooltip">
+	Away</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 1997					</li>
+				
+									<li>
+						Karma: 15					</li>
+				
+									<li>
+						Thank you received: 372					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 8 months ago">28 Apr 2017 02:57</span>				<a href="#92242" id="92242" rel="canonical">#92242</a>
+		<span class="visible-phone">by <a data-original-title="View rodw's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/rodw" title="" rel="nofollow">rodw</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View rodw's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/rodw" title="" rel="nofollow">rodw</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				<blockquote><p class="kmsgtext-quote">andypugh wrote: I was expecting M2 to do this, but I can't see it in the code.<br>
+<br>
+You could remap M75 (for example) to do a loop of M65 Pn commands.</p></blockquote><br>
+Andy, where do you find the source for M &amp; G codes? . I had a quick look on git hub for it today but had no luck.			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="">andypugh</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title=""><img class="img-circle" src="gscreen%20python_files/tn723_58050b4f4cfc7.jpg" alt="andypugh's Avatar" height="144" width="144"></a>								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" class="label label-success hasTooltip">
+	Online</a>
+			</li>
+		
+					<li>
+				Moderator			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rankmod.gif" alt="Moderator" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 15259					</li>
+				
+									<li>
+						Karma: 297					</li>
+				
+									<li>
+						Thank you received: 2299					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 7 months ago">28 Apr 2017 09:29</span>				<a href="#92249" id="92249" rel="canonical">#92249</a>
+		<span class="visible-phone">by <a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></span>
+	</small>
+
+	<div class="badger-left badger-info  badger-moderator  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				<blockquote><p class="kmsgtext-quote">rodw wrote: Andy, where do you
+ find the source for M &amp; G codes? . I had a quick look on git hub 
+for it today but had no luck.</p></blockquote><br>
+M2 is here, in convert_stop along with M30 and others:<br>
+<a href="https://github.com/LinuxCNC/linuxcnc/blob/master/src/emc/rs274ngc/interp_convert.cc#L4095" class="bbcode_url" rel="nofollow noopener noreferrer" target="_blank">
+	github.com/LinuxCNC/linuxcnc/blob/master...erp_convert.cc#L4095</a>
+			</div>
+
+					</div>
+	</div>
+
+
+
+	<div class="kmessage-thankyou">
+		The following user(s) said Thank You: <a data-original-title="View rodw's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/rodw" title="" rel="nofollow">rodw</a> 	</div>
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="">k-1</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title=""><img class="img-circle" src="gscreen%20python_files/tn19275_59b4f373c3100.png" alt="k-1's Avatar" height="144" width="144"></a>									<span class="hidden-phone topic-starter topic-starter-circle">Topic Author</span>
+								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 627					</li>
+				
+				
+									<li>
+						Thank you received: 13					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 7 months ago">01 May 2017 00:11</span>				<a href="#92399" id="92399" rel="canonical">#92399</a>
+		<span class="visible-phone">by <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				sorry ... is my bad english .... ok for the program end ... M2 can 
+do these .... but in case my program was interrupt from an external 
+event .. eg. estop button ...and if the state of M64 Px is "1" no One 
+can reset the stat2 to "0" ... so in these case my request is valid.<br>
+<br>
+using a remap code .... not shure can work in estop state for eg. .... I
+ think about somethings that send a signal "ngc code interrupt" to a 
+"reset digital.in/out" void.<br>
+<br>
+Reading these folder teach me ... <a href="https://github.com/LinuxCNC/linuxcnc/blob/master/src/emc/rs274ngc/" class="bbcode_url" rel="nofollow noopener noreferrer" target="_blank">
+	github.com/LinuxCNC/linuxcnc/blob/master/src/emc/rs274ngc/</a>
+ ...a curiosity What is means with " [NCMS/* what is NCMS??*/, pages 10 - 11]"<br>
+<br>
+regards<br>
+giorgio			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="">andypugh</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title=""><img class="img-circle" src="gscreen%20python_files/tn723_58050b4f4cfc7.jpg" alt="andypugh's Avatar" height="144" width="144"></a>								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" class="label label-success hasTooltip">
+	Online</a>
+			</li>
+		
+					<li>
+				Moderator			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rankmod.gif" alt="Moderator" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 15259					</li>
+				
+									<li>
+						Karma: 297					</li>
+				
+									<li>
+						Thank you received: 2299					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 7 months ago">01 May 2017 01:04</span>				<a href="#92401" id="92401" rel="canonical">#92401</a>
+		<span class="visible-phone">by <a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></span>
+	</small>
+
+	<div class="badger-left badger-info  badger-moderator  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View andypugh's Profile" class="kwho-admin hasTooltip" href="https://forum.linuxcnc.org/cb-profile/andypugh" title="" rel="nofollow">andypugh</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				<a href="http://www.mattshaver.com/NCMS_RS274NGC.pdf" class="bbcode_url" rel="nofollow noopener noreferrer" target="_blank">
+	www.mattshaver.com/NCMS_RS274NGC.pdf</a>
+<br>
+<br>
+(skunkworks found it)			</div>
+
+					</div>
+	</div>
+
+
+
+	<div class="kmessage-thankyou">
+		The following user(s) said Thank You: <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a> 	</div>
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="">k-1</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title=""><img class="img-circle" src="gscreen%20python_files/tn19275_59b4f373c3100.png" alt="k-1's Avatar" height="144" width="144"></a>									<span class="hidden-phone topic-starter topic-starter-circle">Topic Author</span>
+								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 627					</li>
+				
+				
+									<li>
+						Thank you received: 13					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 7 months ago">01 May 2017 11:41</span>				<a href="#92431" id="92431" rel="canonical">#92431</a>
+		<span class="visible-phone">by <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				real-real thanks andypugh ... Beautiful document to be studied.<br>
+<br>
+regards<br>
+Giorgio			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="">k-1</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title=""><img class="img-circle" src="gscreen%20python_files/tn19275_59b4f373c3100.png" alt="k-1's Avatar" height="144" width="144"></a>									<span class="hidden-phone topic-starter topic-starter-circle">Topic Author</span>
+								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 627					</li>
+				
+				
+									<li>
+						Thank you received: 13					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="1 year 7 months ago">04 May 2017 16:53</span>				<a href="#92666" id="92666" rel="canonical">#92666</a>
+		<span class="visible-phone">by <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				sorry andypugh ... what is means for skunkworks ... is lockheed 
+martin company related? or is it a way of saying or someone's alias here
+ on the site?<br>
+<br>
+regards<br>
+giorgio			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="">k-1</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title=""><img class="img-circle" src="gscreen%20python_files/tn19275_59b4f373c3100.png" alt="k-1's Avatar" height="144" width="144"></a>									<span class="hidden-phone topic-starter topic-starter-circle">Topic Author</span>
+								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 627					</li>
+				
+				
+									<li>
+						Thank you received: 13					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="7 months 3 weeks ago">04 May 2018 14:57</span>				<a href="#110208" id="110208" rel="canonical">#110208</a>
+		<span class="visible-phone">by <a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View k-1's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/k-1" title="" rel="nofollow">k-1</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				a little workaround .... using halui.program.is-running + 
+halui.progam.is-auto I can send a signal when program run ... plus near 
+M2/M30 a motion digital out set hight for only 0.2 se2 (with G4 + M64 
+&amp; M65) .... in these way I can set a merker for start program not 
+depending from gcode .... and plus near M2/M30 code i can generate "stop
+ execute gcode custom signal" using a motion.digital pin out.<br>
+<br>
+this is ok ... but better was make a realtime comp that generate a 
+command for INTRP_EXIT state when STOP command is sending during the 
+execution of gcode (in these way is possible reset every motion.digital 
+in/out).<br>
+<br>
+regards<br>
+Giorgio			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+	<div class="row-fluid message">
+		<div class="span2 hidden-phone">
+				<ul class="unstyled center profilebox">
+		<li>
+			<strong><a data-original-title="View bevins's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/bevins" title="">bevins</a></strong>
+		</li>
+							<li>
+				<a data-original-title="View bevins's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/bevins" title=""><img class="img-circle" src="gscreen%20python_files/tnnophoto_n.png" alt="bevins's Avatar" height="144" width="144"></a>								<!--
+			<span class=" topic-moderator"></span>
+		-->			</li>
+		
+					<li>
+				<a data-original-title="" href="https://forum.linuxcnc.org/cb-profile/bevins" title="" class="label label-default hasTooltip">
+	Offline</a>
+			</li>
+		
+					<li>
+				Platinum Boarder			</li>
+		
+					<li>
+				<img src="gscreen%20python_files/rank6.gif" alt="Platinum Boarder" height="16" width="70">			</li>
+		
+			</ul>
+	<div class="profile-expand center">
+		<span class="heading btn btn-small heading-less" style="display:none;"><span title="" data-original-title="" class="icon icon-arrow-up hasTooltip" aria-hidden="true"></span>Less</span>
+		<span class="heading btn btn-small"><span title="" data-original-title="" class="icon icon-arrow-down hasTooltip" aria-hidden="true"></span>More</span>
+		<div class="content" style="display:none;">
+			<ul>
+									<li>
+						Posts: 547					</li>
+				
+									<li>
+						Karma: 3					</li>
+				
+									<li>
+						Thank you received: 39					</li>
+				
+				
+				
+				
+									<li>
+											</li>
+				
+				
+				
+									<li>
+						<span data-toggle="tooltip" data-placement="right" title="Click here to send a private message to this user."></span>					</li>
+				
+				
+							</ul>
+		</div>
+	</div>
+		</div>
+		<div class="span10 message-published">
+			
+	<small class="text-muted pull-right">
+				<i class="icon icon-clock" aria-hidden="true"></i>		<span class="kdate " title="7 months 3 weeks ago">05 May 2018 00:33</span>				<a href="#110225" id="110225" rel="canonical">#110225</a>
+		<span class="visible-phone">by <a data-original-title="View bevins's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/bevins" title="" rel="nofollow">bevins</a></span>
+	</small>
+
+	<div class="badger-left badger-info  message-published">
+		<div class="kmessage">
+			<div class="mykmsg-header">
+				Replied by <em><a data-original-title="View bevins's Profile" class="kwho-user hasTooltip" href="https://forum.linuxcnc.org/cb-profile/bevins" title="" rel="nofollow">bevins</a></em> on topic <em><a data-original-title="I have never faced the topic and did not find anything useful .... but there is a way to reset all motion.digital pin to &amp;quot;0&amp;quot; state ... eg when the program ends?
+
+For shure is possible use and comp for..." href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset#92113" title="" class="hasTooltip topictitle">motion.digital -- reset</a></em>			</div>
+
+			<div class="kmsg">
+				<blockquote><p class="kmsgtext-quote">k-1 wrote: sorry andypugh ... 
+what is means for skunkworks ... is lockheed martin company related? or 
+is it a way of saying or someone's alias here on the site?<br>
+<br>
+regards<br>
+giorgio</p></blockquote><br>
+Skunkworks is a user here.			</div>
+
+					</div>
+	</div>
+
+
+
+			
+
+
+	
+		<div class="kreplymessage">
+			 		</div>
+													</div>
+	</div>
+
+
+	<div class="pull-left">
+		
+<div class="pagination hidden-phone">
+	<ul>
+		<li><a class="disabled">Start</a></li><li><a class="disabled">Prev</a></li><li class="active"><a>1</a></li><li><a data-original-title="Page:2" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">2</a></li><li><a data-original-title="Page:Next" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">Next</a></li><li><a data-original-title="Page:End" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">End</a></li>	</ul>
+</div>
+
+<div class="pagination test visible-phone">
+	<ul>
+		<li class="active"><a>1</a></li><li><a data-original-title="Page:2" class="hasTooltip" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset?start=10" title="">2</a></li>	</ul>
+</div>
+	</div>
+
+	<div class="pull-right">
+		
+<form action="/24-hal-components/32705-motion-digital-reset" method="post" class="form-search pull-right">
+	<input name="view" value="search" type="hidden">
+	<input name="task" value="results" type="hidden">
+
+	
+			<input name="ids[]" value="32705" type="hidden">
+	
+	<input name="childforums" value="1" type="hidden">
+	<input name="d5f28fa5ca97df710ff88d07ae0f78cc" value="1" type="hidden">
+	<div class="input-append">
+		<input class="input-medium search-query" name="query" placeholder="Search" type="text">
+		<button class="btn btn-default" type="submit"><span class="icon icon-search" aria-hidden="true"></span></button>
+	</div>
+</form>
+	</div>
+
+	<div>
+
+	<div class="clearfix"></div>
+	<div class="btn-toolbar" id="topic-actions">
+		<div>
+			
+					</div>
+	</div>
+</div>
+
+	<form action="/" id="jumpto" name="jumpto" method="post" target="_self">
+	<input name="view" value="category" type="hidden">
+	<input name="task" value="jump" type="hidden">
+	<span><select name="catid" id="catid" class="inputbox fbs" size="1" onchange="this.form.submit()"><option value="0">Board Categories</option>
+<option value="59" selected="selected"> LinuxCNC</option>
+<option value="29">-  LinuxCNC Announcements</option>
+<option value="28"> General</option>
+<option value="38">-  General LinuxCNC Questions</option>
+<option value="9">-  Installing LinuxCNC</option>
+<option value="32">-  Documents</option>
+<option value="8"> Configuring LinuxCNC</option>
+<option value="16">-  StepConf Wizard</option>
+<option value="39">-  PnCConf Wizard</option>
+<option value="49">-  Basic Configuration</option>
+<option value="25">-  ClassicLadder</option>
+<option value="24">-  HAL</option>
+<option value="47">-  HAL Examples</option>
+<option value="10">-  Advanced Configuration</option>
+<option value="67"> User Interfaces</option>
+<option value="21">-  AXIS</option>
+<option value="22">-  pyVCP</option>
+<option value="66">-  PathPilot</option>
+<option value="64">-  Gmoccapy</option>
+<option value="48">-  GladeVCP</option>
+<option value="41">-  Other User Interfaces</option>
+<option value="19"> GCode and Part Programs</option>
+<option value="20">-  G&amp;M Codes</option>
+<option value="40">-  O Codes (subroutines) and NGCGUI</option>
+<option value="60">- -  Mill Library</option>
+<option value="61">- -  Lathe Library</option>
+<option value="62">- -  Plasma Library</option>
+<option value="31">-  CAD CAM</option>
+<option value="71">- -  Post Processors</option>
+<option value="72">- - -  Fusion 360</option>
+<option value="73">- - -  MasterCAM</option>
+<option value="74">- - -  MecSoft</option>
+<option value="75">- -  NativeCAM</option>
+<option value="17"> Hardware &amp; Machines</option>
+<option value="18">-  Computers and OS's</option>
+<option value="27">-  Driver Boards</option>
+<option value="12">-  Milling Machines</option>
+<option value="30">-  CNC Machines</option>
+<option value="26">-  Turning</option>
+<option value="70">-  Plasma &amp; Laser</option>
+<option value="33"> Other Stuff</option>
+<option value="63">-  Show Your Stuff</option>
+<option value="36">-  Kunena Forum Questions</option>
+<option value="54">-  User Exchange</option>
+<option value="51">-  Off Topic and Test Posts</option>
+<option value="58">- -  BeagleBone</option>
+<option value="68"> International LinuxCNC Users</option>
+<option value="46">-  Français</option>
+<option value="45">-  Español</option>
+<option value="44">-  Polski</option>
+<option value="42">-  Deutsch</option>
+<option value="43">-  Russian</option>
+<option value="37">-  Other Languages</option>
+</select></span>
+</form>
+
+	<div class="pull-right"></div>
+
+	<div class="clearfix"></div>
+</div>
+	<ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+		<li class="active" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+			<span title="" data-original-title="" class="icon icon-home hasTooltip" aria-hidden="true"></span>			<a itemprop="item" href="https://forum.linuxcnc.org/8-configuring-linuxcnc"><span itemprop="name">Configuring LinuxCNC</span></a>
+			<meta itemprop="position" content="1">
+		</li>
+
+					<li class="divider"><span class="icon icon-chevron-right" aria-hidden="true"></span></li>
+			<li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="https://forum.linuxcnc.org/24-hal-components"><span itemprop="name">HAL</span></a>
+				<meta itemprop="position" content="2">
+			</li>
+					<li class="divider"><span class="icon icon-chevron-right" aria-hidden="true"></span></li>
+			<li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="https://forum.linuxcnc.org/24-hal-components/32705-motion-digital-reset"><span itemprop="name">motion.digital -- reset</span></a>
+				<meta itemprop="position" content="3">
+			</li>
+		
+	</ol>
+
+	<div class="pull-right large-kicon"><a rel="alternate" type="application/rss+xml" href="https://forum.linuxcnc.org/topics/posts?format=feed&amp;type=rss"><i data-original-title="Get the latest posts directly to your desktop" class="icon icon-feed  hasTooltip" title="" aria-hidden="true"></i></a></div>
+	<div class="clearfix"></div>
+
+	<div class="center">
+		Time to create page: 0.095 seconds	</div>
+</div>
+<div style="text-align:center;"><a href="https://forum.linuxcnc.org/credits" style="display: inline !important; visibility: visible !important; text-decoration: none !important;">Powered by</a> <a href="https://www.kunena.org/" target="_blank" rel="noopener noreferrer" style="display: inline !important; visibility: visible !important; text-decoration: none !important;">Kunena Forum</a></div>
+					<div class="clearfix"></div>
+					
+					<!-- End Content -->
+				</main>
+							</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr>
+			
+			<p class="pull-right">
+				<a href="#top" id="back-top">
+					Back to Top				</a>
+			</p>
+			<p>
+				© 2018 LinuxCNC Forum			</p>
+		</div>
+	</footer>
+	
+
+
+</body></html>

@@ -1,0 +1,84 @@
+o<m600>sub
+(TAKE ERROR TOOLCHANGE)
+
+o10 if [#4997 EQ 0]
+        (abort, Tidak ada tool yang error)
+o10 endif
+
+o20 if [#5400 NE 9999]
+        (abort, Tool on Spindle Error, it should be Tool 9999)
+o20 endif
+
+#<tp_y> = 53.437 	;abs
+#<tp_z> = [-363.628-1.] ;abs-354.244-2.
+
+#<tp_y_ret> = 0 	;jarak lepas y poc inc
+#<tp_z_ret> = 52.4 	;jarak lepas z poc inc
+#<approch_fr> = 2500	; tool in speed
+
+#<max-retry> = 3
+#<max-umbrella-slot> = 12 
+
+G91G28Z0.                              
+M05 (SPINDLE OF)
+G40 (CANCEL DIA COMP)
+G49 (CANCEL TL COMP)
+G92.2 (CANCEL OFFS COO)
+G91G28B0. (STDY POSITION)
+M289 P#4997 (POCKET POSITIONING BY TOOL NUM ON #4997)
+M250 (OPEN MAG)
+M248 (PUSH MAG)
+M334 (DHOODUP)
+
+M66 P17 L3 Q5 (CHECK DHOOD UP POS)
+o30 if [#5399 EQ -1]
+        M335
+        (abort, DHood tidak pada posisi yang benar, periksa sensor DHood up !) 
+o30 endif
+
+
+;G90G0G53Y[#<tp_y>] (HEAD Y AXIS POS)
+G90G0G53Y0.  (HEAD Y AXIS POS)
+G90G1G53Y[#<tp_y>] F[#<approch_fr>] (HEAD Y AXIS POS)
+G90G0G53Z[#<tp_z> + #<tp_z_ret>]
+M299 (TOOL UNCLAMP)
+#<try-count> = 0
+#<is-pluged> = 0
+o40 while [#<try-count> LT #<max-retry>]
+                G90G1G53Z[#<tp_z>] F[#<approch_fr>] (TAKE TOOL)
+	        M300 (TOOL CLAMP)
+	        G04P1. (WAIT 1 SEC)
+	        M301 (CHECK TOOL PLUGED)
+                o35 if [#<_value> EQ 0]
+		        #<is-pluged> = 1 (PLUGED CORRECTLY FLAG)
+                        #<try-count> = 3 (EXIT LOOP)
+                o35 else
+		        M299 (TOOL UNCLAMP)
+		        G90G1G53Z[#<tp_z> + #<tp_z_ret>] F[#<approch_fr>] (RETRACT)
+		        G04P1. (WAIT 1 SEC)
+		        ;G90G1G53Z[#<tp_z>] F[#<approch_fr>] (TAKE TOOL)
+		        #<try-count> = [#<try-count> + 1]	
+                o35 endif
+o40 endwhile
+
+o50 if [#<is-pluged> EQ 1] (TOOL CHANGE SUCCESS)
+	        M249 (PULL MAG)
+	        G91G28Z0. (GO HOME)
+	        M251 (CLOSE MAG)
+                M335 (DHOOD DOWN)
+                M61 Q#4997
+                #4999 = #4997 
+	        #4997 = 0              
+o50 else (TOOL CHANGE FAILED)
+                G91G28Z0. (GO HOME)
+	        M300 (TOOL CLAMP)			        
+	        M249(PULL MAG)
+	        M251 (CLOSE MAG)
+                M335 (DHOOD DOWN)
+	        #4999 = 9999
+	        M61 Q#4999
+	        (abort, Tool change gagal, tool tidak terdeteksi. pastikan tool terpasang dengan benar. PENTING ! : JALANKAN MDI : M600 UNTUK MENGULANGI PENGAMBILAN TOOL YANG GAGAL. PASTIKAN TIDAK ADA TOOL TERPASANG PADA SPINDLE)
+o50 endif
+
+o<m600>endsub
+m2

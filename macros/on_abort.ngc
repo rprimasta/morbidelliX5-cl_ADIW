@@ -1,0 +1,12 @@
+o<on_abort> sub
+G54 (origin offsets are set to the default)
+G17 (select XY plane)
+G90 (absolute)
+G40 (cutter compensation off)
+M5  (spindle off)
+G80 (cancel modal motion)
+M9  (mist and coolant off)
+
+M64 P60 (abort double table)
+o<on_abort> endsub
+m2

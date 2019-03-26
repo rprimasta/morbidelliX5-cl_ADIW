@@ -1,0 +1,122 @@
+o<change> sub
+;=========UNTUK SIMULASI
+
+#<tp_y> = 53.437 ;59.537	abs
+#<tp_z> = [-363.628-1.] ;-353.628abs-354.244-2.
+
+#<tp_y_ret> = 0 	;jarak lepas y poc inc
+#<tp_z_ret> = 52.4 	;jarak lepas z poc inc
+#<approch_fr> = 2500	; tool in speed
+
+#<max-retry> = 3
+#<max-umbrella-slot> = 12 
+
+
+o5 if [#<_current_tool> EQ 0]        
+        (abort,  BELUM HOME)  
+        o15 return[0]
+o5 endif
+
+
+;======cek apakah pernah gagal=========
+o10 if [#<_current_tool> EQ 9999]        
+        (abort, Tool change pernah gagal. PENTING ! : JALANKAN MDI : M600 UNTUK MENGULANGI PENGAMBILAN TOOL YANG GAGAL. PASTIKAN TIDAK ADA TOOL TERPASANG PADA SPINDLE)  
+        o15 return[0]
+o10 endif
+
+;======lewati proses jika tool yg diminta sama dengan yg dpakai=========
+o20 if [#<selected_pocket> NE #<_current_tool>]       
+        o30 if [#<selected_pocket> LT 13]
+                ;(msg,ganti tool spindle)
+                M70
+                G91G28Z0.                
+                
+                M05 (SPINDLE OF)
+                G40 (CANCEL DIA COMP)
+	        G49 (CANCEL TL COMP)
+                G92.2 (CANCEL OFFS COO)
+                G91G28B0. (STDY POSITION)
+                M249 (PULL MAG)
+                M334 (DHOODUP)
+
+                M66 P17 L3 Q10 (CHECK DHOOD UP POS)
+                o32 if [#5399 EQ -1]
+                        ;M335
+                        (abort, DHood tidak pada posisi yang benar periksa sensor DHood up !) 
+                o32 endif
+               
+                M289 P#<tool_in_spindle> (POCKET POSITIONING BY TOOL ON SPINDLE)
+		;G90G0G53Y0.  (HEAD Y AXIS POS)
+                G90G1G53Y[#<tp_y>] F15000. (HEAD Y AXIS POS)
+		G90G0G53Z[#<tp_z>] (HEAD Z AXIS POS)
+		M250 (OPEN MAG)
+		M248 (MAG PUSH)		
+		M299 (TOOL UNCLAMP)
+                G90G1G53Z[#<tp_z> + #<tp_z_ret>] F[#<approch_fr>] (RETRACT)
+                M289 P#<selected_pocket> (POCKET POSITIONING BY SELECTED POCKET)
+                
+                
+                #<try-count> = 0
+                #<is-pluged> = 0
+	        o34 while [#<try-count> LT #<max-retry>]
+                                G90G1G53Z[#<tp_z>] F[#<approch_fr>] (TAKE TOOL)
+			        M300 (TOOL CLAMP)
+			        G04P1. (WAIT 1 SEC)
+			        M301 (CHECK TOOL PLUGED)
+	                        o36 if [#<_value> EQ 0]
+				        #<is-pluged> = 1 (PLUGED CORRECTLY FLAG)
+                                        #<try-count> = 3 (EXIT LOOP)
+	                        o36 else
+				        M299 (TOOL UNCLAMP)
+				        G90G1G53Z[#<tp_z> + #<tp_z_ret>] F[#<approch_fr>] (RETRACT)
+	        		        G04P1. (WAIT 1 SEC)
+				        ;G90G1G53Z[#<tp_z>] F[#<approch_fr>] (TAKE TOOL)
+				        #<try-count> = [#<try-count> + 1]	
+	                        o36 endif
+	        o34 endwhile
+
+                o150 if [#<is-pluged> EQ 1] (TOOL CHANGE SUCCESS)
+                                M61 Q#<selected_pocket>
+                                #4999 = #<selected_pocket>
+			        M249 (PULL MAG)
+			        G91G28Z0. (GO HOME)
+			        M251 (CLOSE MAG)
+                                M335 (DHOOD DOWN)
+			        #4997 = 0
+	        o150 else (TOOL CHANGE FAILED)
+                                G91G28Z0. (GO HOME)
+			        M300 (TOOL CLAMP)			        
+			        M249(PULL MAG)
+			        M251 (CLOSE MAG)
+                                M335 (DHOOD DOWN)
+			        #4997 = #<selected_pocket>
+			        #4999 = 9999
+			        M61 Q#4999
+			        (abort, Tool change gagal, tool tidak terdeteksi. pastikan tool terpasang dengan benar. PENTING ! : JALANKAN MDI : M600 UNTUK MENGULANGI PENGAMBILAN TOOL YANG GAGAL. PASTIKAN TIDAK ADA TOOL TERPASANG PADA SPINDLE)
+	        o150 endif
+                M72
+                
+                ;==================PROSES GANTI TOOL SPINDLE=================
+                o35 return[1]
+        o30 else
+                o40 if [#<selected_pocket> GT 20]
+                        o50 if [#<selected_pocket> LT 39]
+                                ;(msg,ganti tool drill)
+                                M70
+                                ;==================PROSES GANTI TOOL DRILL=================
+                                M72
+                                M61 Q#<selected_pocket>
+                                o55 return [1]
+                        o50 else
+                                o56 return [0]
+                        o50 endif
+                o40 else
+                        o45 return [0] 
+                o40 endif      
+        o30 endif      
+o20 endif
+
+
+M61 Q#<selected_pocket>
+o<change> endsub [1]
+m2

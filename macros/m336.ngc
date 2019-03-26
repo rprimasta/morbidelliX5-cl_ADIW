@@ -1,0 +1,11 @@
+o<m336>sub
+(PARKIR JAUH)
+o11	if [#4998 EQ 1]
+                (abort, ERROR : POSISI MAG MASIH DALAM POSISI MAJU. JALANKAN MDI : M249.)
+o11	else
+	G40
+	G91G28Z0.
+	G90G53G0X4000.
+o11	endif
+o<m336>endsub
+m2

@@ -1,0 +1,80 @@
+# Include your customized HAL commands here
+# This file will not be overwritten when you run stepconf again
+
+net prog-run halui.program.run <= plc01.cstart
+
+#group cnc => plc
+net mag-pos-start motion.digital-out-00 => plc01.B26
+net tool-unclamp motion.digital-out-01 => plc01.B27
+net tool-mag-y-neg motion.digital-out-02 => plc01.B28
+net tool-mag-y-pos motion.digital-out-03 => plc01.B29
+net drill-bank-up motion.digital-out-04 => plc01.B30
+net mag-open motion.digital-out-07 => plc01.B33
+net dhood motion.digital-out-08 => plc01.B34
+
+#DRILL
+net DRILL-ON motion.digital-out-09 => plc01.B25
+
+net drill_t101 motion.digital-out-10 => plc01.B60
+net drill_t102 motion.digital-out-11 => plc01.B61
+net drill_t103 motion.digital-out-12 => plc01.B62
+net drill_t104 motion.digital-out-13 => plc01.B63
+net drill_t105 motion.digital-out-14 => plc01.B64
+net drill_t106 motion.digital-out-15 => plc01.B65
+net drill_t107 motion.digital-out-16 => plc01.B66
+net drill_t108 motion.digital-out-17 => plc01.B67
+net drill_t109 motion.digital-out-18 => plc01.B68
+net drill_t110 motion.digital-out-19 => plc01.B69
+net drill_t111 motion.digital-out-20 => plc01.B70
+net drill_t112 motion.digital-out-21 => plc01.B71
+net drill_t589 motion.digital-out-22 => plc01.B72
+net drill_t601 motion.digital-out-23 => plc01.B73
+net drill_t623 motion.digital-out-24 => plc01.B74
+
+
+#TABLE
+#net tbl-ab-enable motion.digital-out-25 => plc01.B31
+#net tbl-cd-enable motion.digital-out-26 => plc01.B32
+#net tbl-ab-lock motion.digital-out-27 => plc01.B35
+#net tbl-cd-lock motion.digital-out-28 => plc01.B36
+
+
+net mag_home motion.digital-out-29 => plc01.B82
+
+
+#group cnc <= plc
+
+net plc-alrm		motion.digital-in-00 <= plc01.S2
+net plc-busy		motion.digital-in-01 <= plc01.S3
+
+net spindle-zero-spd	motion.digital-in-02 <= plc01.S5
+
+net mag-ready-homed 	motion.digital-in-03 <= plc01.S11
+net mag-on-pos 		motion.digital-in-04 <= plc01.S12
+
+net spindle-unlocked 	motion.digital-in-05 <= plc01.S13
+
+net drill-bank-down-pos	motion.digital-in-06 <= plc01.S14
+net drill-bank-up-pos 	motion.digital-in-07 <= plc01.S15
+
+#net table-ab-ready 	motion.digital-in-08 <= plc01.S16
+#net table-cd-ready 	motion.digital-in-09 <= plc01.S17
+
+net mag-opened 		motion.digital-in-10 <= plc01.S18
+net mag-slide-on-pos 	motion.digital-in-11 <= plc01.S19
+net mag-pos-start-stat	motion.digital-in-12 => plc01.S26
+
+net tool-unclamp-stat	motion.digital-in-13 => plc01.S27
+
+net dhood-down-pos	motion.digital-in-14 <= plc01.S48
+net dhood-up-pos	motion.digital-in-15 <= plc01.S49
+
+net tool-detect	motion.digital-in-16 <= plc01.S50
+#net dhood-up-detect	motion.digital-in-17 <= plc01.S51 => emc01.dhoodup
+
+net mag_index_pos	motion.digital-in-18 <= plc01.S56
+#data exchange
+net tool-req-number motion.analog-out-00 => plc01.D201F
+net tool-req-stat-number motion.analog-in-00 <= plc01.E201F
+net curr-pocket-number motion.analog-in-01 <= plc01.E200F
+

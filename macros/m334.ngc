@@ -1,0 +1,33 @@
+o<m334>sub
+(dhood up)
+
+#<DHOOD-FREE-POS> = 7.0
+#<DHOOD-RETURN-POS> = 0.0
+
+M66 P17 L4 Q1
+o10 if [#5399 EQ 0]
+
+        G90G53G0C[#<DHOOD-FREE-POS>]        
+        
+        M64 P8
+        M66 P14 L3 Q5
+        o20 if [#5399 EQ -1]
+                (abort, Dusthood redswitch sensor down error)
+        o20 endif
+
+        G90G53G0C[#<DHOOD-RETURN-POS>]
+
+        M65 P8
+        M66 P15 L1 Q5
+        o30 if [#5399 EQ -1]
+                (abort, Dusthood redswitch sensor up error)
+        o30 endif     
+
+        M66 P17 L3 Q5
+        o40 if [#5399 EQ -1]
+               (abort, Dusthood gagal naik)        
+        o40 endif     
+o10 endif
+
+o<m334>endsub
+m2
