@@ -1,6 +1,8 @@
 O<startup> sub
+#4998=1
 M61 Q#4999
 M289 P#4999
 M699
+G64 P0.015
 O<startup> endsub [1]
 m2

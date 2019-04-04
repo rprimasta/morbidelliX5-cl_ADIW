@@ -1,0 +1,4 @@
+#!/bin/bash
+val=$1
+halcmd setp paramx5.tc_currtool $val
+exit 0

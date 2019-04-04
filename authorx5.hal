@@ -3,6 +3,7 @@
 # overwritten when you run stepconf again
 
 loadusr -W /home/author/linuxcnc/configs/authorx5-cl/python/plc01.py
+loadusr -W /home/author/linuxcnc/configs/authorx5-cl/python/paramx5.py
 loadusr -W /home/author/linuxcnc/configs/authorx5-cl/python/hal_mpg.py
 
 #==================Standard I/O Block - EStop, Etc====================
@@ -22,17 +23,7 @@ net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
 #net halui.tool.number <= plc01.E200
 
 
-#=====================Parameter Link======================
-setp plc01.poc_y [TOOLCHANGE]POC_Y
-setp plc01.poc_z [TOOLCHANGE]POC_Z
-setp plc01.retract_z [TOOLCHANGE]RETRACT_Z
-setp plc01.feedrate [TOOLCHANGE]TAKE_FEEDRATE
-setp plc01.datum_x_ab [TABLE]DATUM_X_AB
-setp plc01.datum_y_ab [TABLE]DATUM_Y_AB
-setp plc01.datum_z_ab [TABLE]DATUM_Z_AB
-setp plc01.datum_x_cd [TABLE]DATUM_X_CD
-setp plc01.datum_y_cd [TABLE]DATUM_Y_CD
-setp plc01.datum_z_cd [TABLE]DATUM_Z_CD
+
 
 
 #=================ALL HOME STATUS============================

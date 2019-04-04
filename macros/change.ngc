@@ -1,15 +1,12 @@
 o<change> sub
-;=========UNTUK SIMULASI
-(debug,#<_hal[plc01.datum_x_ab]>)
-#<tp_y> = #<_hal[plc01.poc_y]> ;53.437 59.537	abs
-#<tp_z> = #<_hal[plc01.poc_z]> ;[-363.628-1.] -353.628abs-354.244-2.
+#<tp_y> = #<_hal[paramx5.tc_poc_y]> ;53.437 59.537	abs
+#<tp_z> = #<_hal[paramx5.tc_poc_z]> ;[-363.628-1.] -353.628abs-354.244-2.
 
-#<tp_y_ret> = 0 	;jarak lepas y poc inc
-#<tp_z_ret> = #<_hal[plc01.retract_z]> ;52.4 	jarak lepas z poc inc
-#<approch_fr> = #<_hal[plc01.feedrate]> ;2500	 tool in speed
+#<tp_z_ret> = #<_hal[paramx5.tc_retract_z]> ;52.4 	jarak lepas z poc inc
+#<approch_fr> = #<_hal[paramx5.tc_feedrate]> ;2500	 tool in speed
 
-#<max-retry> = 3
-#<max-umbrella-slot> = 12 
+#<max-retry> = #<_hal[paramx5.tc_clamp_maxretry]>
+#<max-umbrella-slot> = #<_hal[paramx5.tc_numslot]> 
 
 
 o5 if [#<_current_tool> EQ 0]        
@@ -28,6 +25,7 @@ o10 endif
 o20 if [#<selected_pocket> NE #<_current_tool>]       
         o30 if [#<selected_pocket> LT 13]
                 ;(msg,ganti tool spindle)
+		G64 P0.015
                 M70
                 G91G28Z0.                
                 
@@ -35,19 +33,13 @@ o20 if [#<selected_pocket> NE #<_current_tool>]
                 G40 (CANCEL DIA COMP)
 	        G49 (CANCEL TL COMP)
                 G92.2 (CANCEL OFFS COO)
-                G91G28B0. (STDY POSITION)
+		G90G53G0C180.B0. (STDY POSITION)
                 M249 (PULL MAG)
-                M334 (DHOODUP)
-
-                M66 P17 L3 Q10 (CHECK DHOOD UP POS)
-                o32 if [#5399 EQ -1]
-                        ;M335
-                        (abort, DHood tidak pada posisi yang benar periksa sensor DHood up !) 
-                o32 endif
+                M334 (DHOODUP)             
                
                 M289 P#<tool_in_spindle> (POCKET POSITIONING BY TOOL ON SPINDLE)
-		;G90G0G53Y0.  (HEAD Y AXIS POS)
-                G90G1G53Y[#<tp_y>] F15000. (HEAD Y AXIS POS)
+		
+                G90G0G53Y[#<tp_y>] (HEAD Y AXIS POS)
 		G90G0G53Z[#<tp_z>] (HEAD Z AXIS POS)
 		M250 (OPEN MAG)
 		M248 (MAG PUSH)		

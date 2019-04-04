@@ -48,9 +48,13 @@ setp pid.0.FF2 [AXIS_0]FF2
 setp pid.0.deadband [AXIS_0]DEADBAND
 setp pid.0.error-previous-target true
 
+net xindex-enable <=> hm2_5i25.0.encoder.00.index-enable
+net xindex-enable <=> axis.0.index-enable
+net xindex-enable => pid.0.index-enable
+
 net x-axis-enable pid.0.enable <= axis.0.amp-enable-out
 net x-axis-fault axis.0.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-16-not
-net x-axis-enable hm2_5i25.0.7i77.0.1.analogena hm2_5i25.0.7i77.0.1.spinena 
+net x-axis-enable hm2_5i25.0.7i77.0.1.analogena
 net x-axis-fb pid.0.feedback <= hm2_5i25.0.encoder.00.position
 net x-axis-fb axis.0.motor-pos-fb
 net x-axis-pos-cmd axis.0.motor-pos-cmd => pid.0.command
@@ -74,6 +78,9 @@ setp pid.1.FF2 [AXIS_1]FF2
 setp pid.1.deadband [AXIS_1]DEADBAND
 setp pid.1.error-previous-target true
 
+net yindex-enable <=> hm2_5i25.0.encoder.01.index-enable
+net yindex-enable <=> axis.1.index-enable
+net yindex-enable => pid.1.index-enable
 
 net y-axis-enable pid.1.enable <= axis.1.amp-enable-out
 net y-axis-fault axis.1.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-17-not
@@ -99,6 +106,10 @@ setp pid.2.FF1 [AXIS_2]FF1
 setp pid.2.FF2 [AXIS_2]FF2
 setp pid.2.deadband [AXIS_2]DEADBAND
 setp pid.2.error-previous-target true
+
+net zindex-enable <=> hm2_5i25.0.encoder.02.index-enable
+net zindex-enable <=> axis.2.index-enable
+net zindex-enable => pid.2.index-enable
 
 
 net z-axis-enable pid.2.enable <= axis.2.amp-enable-out => hm2_5i25.0.7i77.0.0.output-00
@@ -126,6 +137,10 @@ setp pid.4.FF2 [AXIS_4]FF2
 setp pid.4.deadband [AXIS_4]DEADBAND
 setp pid.4.error-previous-target true
 
+net bindex-enable <=> hm2_5i25.0.encoder.03.index-enable
+net bindex-enable <=> axis.4.index-enable
+net bindex-enable => pid.4.index-enable
+
 
 net b-axis-enable pid.4.enable <= axis.4.amp-enable-out => hm2_5i25.0.7i77.0.0.output-01
 net b-axis-fault axis.4.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-19-not
@@ -151,6 +166,10 @@ setp pid.5.FF2 [AXIS_5]FF2
 setp pid.5.deadband [AXIS_5]DEADBAND
 setp pid.5.error-previous-target true
 
+net cindex-enable <=> hm2_5i25.0.encoder.04.index-enable
+net cindex-enable <=> axis.5.index-enable
+net cindex-enable => pid.5.index-enable
+
 
 net c-axis-enable pid.5.enable <= axis.5.amp-enable-out
 net c-axis-fault axis.5.amp-fault-in <= hm2_5i25.0.7i77.0.0.input-20-not
@@ -167,12 +186,16 @@ net c-home hm2_5i25.0.7i77.0.0.input-04 => axis.5.home-sw-in
 
 #======SPINDLE=======
 loadrt scale count=1
+
 addf scale.0 servo-thread
 setp scale.0.gain 0.0004211944
 #0.00041666667
 net spindle-speed-scale motion.spindle-speed-out => scale.0.in
+
 net spindle-speed-DAC scale.0.out => hm2_5i25.0.7i77.0.1.analogout5
 net spindle-fwd motion.spindle-forward => hm2_5i25.0.7i77.0.0.output-02
 net spindle-rev motion.spindle-reverse => hm2_5i25.0.7i77.0.0.output-03
-net spindle-at-speed motion.spindle-at-speed <= hm2_5i25.0.7i77.0.0.input-11
+net spindle-on motion.spindle-on => hm2_5i25.0.7i77.0.1.spinena
+net spindle-at-speed <= hm2_5i25.0.7i77.0.0.input-11
+net spindle-at-speed => motion.spindle-at-speed 
 

@@ -5,7 +5,7 @@ o<m335>sub
 #<DHOOD-RETURN-POS> = 0.0
 
 
-
+o5 if [#<_hal[paramx5.dhood_enable]> EQ 1]
 M66 P17 L3 Q1
 o10 if [#5399 EQ 1]
         G90G53G0B0.        
@@ -14,19 +14,23 @@ o10 if [#5399 EQ 1]
         o20 if [#5399 EQ -1]
                 (abort, Dusthood redswitch sensor down error)
         o20 endif
-        G90G53G0C[#<DHOOD-FREE-POS>]
+        G90G53G1C[180 + #<DHOOD-FREE-POS>] F1000.
+
+	M66 P17 L4 Q5 (CHECK DHOOD COVER POS)
+	o<check-cover-out> if [#5399 EQ -1]
+	        (abort, Dhood cover tersangkut. periksa pengait) 
+	o<check-cover-out> endif 
+
+
         M65 P8
         M66 P15 L1 Q200
         o30 if [#5399 EQ -1]
                 (abort, Dusthood redswitch sensor up error)
         o30 endif
-        G90G53G0C[#<DHOOD-RETURN-POS>]
+        G90G53G0C[180 + #<DHOOD-RETURN-POS>]
 
-        M66 P17 L4 Q5
-        o40 if [#5399 EQ -1]
-               (abort, Dusthood gagal turun)        
-        o40 endif 
+         
 o10 endif
-
+o5 endif
 o<m335>endsub
 m2

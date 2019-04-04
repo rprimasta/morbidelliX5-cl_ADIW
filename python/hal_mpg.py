@@ -151,16 +151,16 @@ class mpg:
 
 			#scale rotary switch
 			if override == 13:
-				self.halcomp["jog-scale"] = 0.001
+				self.halcomp["jog-scale"] = 0.000001
 				self.halcomp["gen-scale"] = 0.02
 			if override == 14:
-				self.halcomp["jog-scale"] = 0.01
+				self.halcomp["jog-scale"] = 0.00001
 				self.halcomp["gen-scale"] = 0.05
 			if override == 15:
-				self.halcomp["jog-scale"] = 0.1
+				self.halcomp["jog-scale"] = 0.0001
 				self.halcomp["gen-scale"] = 0.1
 			if override == 16:
-				self.halcomp["jog-scale"] = 1
+				self.halcomp["jog-scale"] = 0.001
 				self.halcomp["gen-scale"] = 0.3
 			if override == 26:
 				self.halcomp["gen-scale"] = 0.6

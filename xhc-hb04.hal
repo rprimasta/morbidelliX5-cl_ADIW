@@ -1,3 +1,10 @@
+loadrt ilowpass
+addf ilowpass.0 servo-thread
+
+
+setp ilowpass.0.gain 0.006
+setp ilowpass.0.scale 1000
+
 
 # Home button
 net home halui.home-all <= hal_mpg.button-home
@@ -25,6 +32,12 @@ net tuclamp hal_mpg.button-macro10 => halui.mdi-command-05
 #net pos-rel-z halui.axis.2.pos-relative => xhc-hb04.z.pos-relative
 #net pos-rel-a halui.axis.3.pos-relative => xhc-hb04.a.pos-relative
 
+setp axis.0.jog-vel-mode 1
+setp axis.1.jog-vel-mode 1
+setp axis.2.jog-vel-mode 1
+setp axis.4.jog-vel-mode 1
+setp axis.5.jog-vel-mode 1
+
 # Jog wheel and axis selection button
 net jog-x axis.0.jog-enable <= hal_mpg.select-x
 net jog-y axis.1.jog-enable <= hal_mpg.select-y
@@ -32,9 +45,17 @@ net jog-z axis.2.jog-enable <= hal_mpg.select-z
 net jog-b axis.4.jog-enable <= hal_mpg.select-b
 net jog-c axis.5.jog-enable <= hal_mpg.select-c
 
-setp axis.0.jog-vel-mode 1
+
 net jog-scale hal_mpg.jog-scale => axis.0.jog-scale axis.1.jog-scale axis.2.jog-scale axis.4.jog-scale axis.5.jog-scale
-net jog-counts hal_mpg.wheel-count => axis.0.jog-counts axis.1.jog-counts axis.2.jog-counts axis.4.jog-counts axis.5.jog-counts
+
+net jog-smoothing ilowpass.0.in <= hal_mpg.wheel-count
+net jog-counts <= ilowpass.0.out
+net jog-counts => axis.0.jog-counts 
+net jog-counts => axis.1.jog-counts 
+net jog-counts => axis.2.jog-counts 
+net jog-counts => axis.4.jog-counts 
+net jog-counts => axis.5.jog-counts
+
 #setp halui.jog-speed 0.05
 #net jog-speed  halui.jog-speed <= halui.max-velocity.value
 

@@ -9,15 +9,14 @@ o20 if [#5400 NE 9999]
         (abort, Tool on Spindle Error, it should be Tool 9999)
 o20 endif
 
-#<tp_y> = 53.437 	;abs
-#<tp_z> = [-363.628-1.] ;abs-354.244-2.
+#<tp_y> = #<_hal[paramx5.tc_poc_y]> ;53.437 59.537	abs
+#<tp_z> = #<_hal[paramx5.tc_poc_z]> ;[-363.628-1.] -353.628abs-354.244-2.
 
-#<tp_y_ret> = 0 	;jarak lepas y poc inc
-#<tp_z_ret> = 52.4 	;jarak lepas z poc inc
-#<approch_fr> = 2500	; tool in speed
+#<tp_z_ret> = #<_hal[paramx5.tc_retract_z]> ;52.4 	jarak lepas z poc inc
+#<approch_fr> = #<_hal[paramx5.tc_feedrate]> ;2500	 tool in speed
 
-#<max-retry> = 3
-#<max-umbrella-slot> = 12 
+#<max-retry> = #<_hal[paramx5.tc_clamp_maxretry]>
+#<max-umbrella-slot> = #<_hal[paramx5.tc_numslot]> 
 
 G91G28Z0.                              
 M05 (SPINDLE OF)
@@ -29,12 +28,6 @@ M289 P#4997 (POCKET POSITIONING BY TOOL NUM ON #4997)
 M250 (OPEN MAG)
 M248 (PUSH MAG)
 M334 (DHOODUP)
-
-M66 P17 L3 Q5 (CHECK DHOOD UP POS)
-o30 if [#5399 EQ -1]
-        M335
-        (abort, DHood tidak pada posisi yang benar, periksa sensor DHood up !) 
-o30 endif
 
 
 ;G90G0G53Y[#<tp_y>] (HEAD Y AXIS POS)

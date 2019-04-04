@@ -1,0 +1,33 @@
+o<g731> sub
+(debug, in g731); x=[#<x>] y=[#<y>] z=[#<z>] r=[#<R>])
+
+(debug, g731 call_level= #<_call_level> remap_level=#<_remap_level>)
+
+o<g731_havex> if [EXISTS[#<x>]]
+(debug, X param set: #<x>)
+o<g731_havex> endif
+
+o<g731_havey> if [EXISTS[#<y>]]
+(debug, Y param set: #<y>)
+o<g731_havey> endif
+
+o<g731_havez> if [EXISTS[#<z>]]
+(debug, Z param set: #<z>)
+o<g731_havez> endif
+
+o<g731_havep> if [EXISTS[#<p>]]
+(debug, P param set: #<p>)
+o<g731_havep> endif
+
+o<g731_haveq> if [EXISTS[#<q>]]
+(debug, Q param set: #<q>)
+o<g731_haveq> endif
+
+o<g731_haver> if [EXISTS[#<r>]]
+(debug, R param set: #<r>)
+o<g731_haver> endif
+
+(debug, end g731)
+
+o<g731> endsub [1]
+m2

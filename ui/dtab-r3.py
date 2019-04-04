@@ -15,14 +15,7 @@ class multiTable:
 	Filename = "brokerProg.json"
 	lastRun = False	
 
-	#DATUM T1
-	datum_x1 = 247.971 #247.331
-	datum_y1 = -115.14 #-112.662
-	datum_z1 = -322.8000
-	#DATUM T2
-	datum_x2 = 2589.251 #2593.511 2580.05
-	datum_y2 = -115.14
-	datum_z2 = -322.8000
+	
 	#DATUM o1
 	offs_x1 = 0.0
 	offs_y1 = 0.0
@@ -51,6 +44,17 @@ class multiTable:
 	cd_qty = 0
 
         def __init__(self,halcomp,builder,useropts):
+		self.inifile = linuxcnc.ini('/home/author/linuxcnc/configs/authorx5-cl/authorx5.ini')
+
+		#DATUM T1
+		self.datum_x1 = float(self.inifile.find('DTABLE', 'DATUM_X_AB'))
+		self.datum_y1 = float(self.inifile.find('DTABLE', 'DATUM_Y_AB'))
+		self.datum_z1 = float(self.inifile.find('DTABLE', 'DATUM_Z_AB'))
+		#DATUM T2
+		self.datum_x2 = float(self.inifile.find('DTABLE', 'DATUM_X_CD'))
+		self.datum_y2 = float(self.inifile.find('DTABLE', 'DATUM_Y_CD'))
+		self.datum_z2 = float(self.inifile.find('DTABLE', 'DATUM_Z_CD'))
+		
                 hal_glib.GPin(halcomp.newpin('debug_currProg', hal.HAL_U32, hal.HAL_OUT))
                 hal_glib.GPin(halcomp.newpin('debug_numQueue', hal.HAL_U32, hal.HAL_OUT))
 
@@ -68,7 +72,16 @@ class multiTable:
                 hal_glib.GPin(halcomp.newpin('hal_start_b', hal.HAL_BIT, hal.HAL_IN))
                 hal_glib.GPin(halcomp.newpin('hal_start_c', hal.HAL_BIT, hal.HAL_IN))
                 hal_glib.GPin(halcomp.newpin('hal_start_d', hal.HAL_BIT, hal.HAL_IN))
-                self.halcomp = halcomp
+		
+		hal_glib.GPin(halcomp.newpin('tbl_offs_x_ab', hal.HAL_FLOAT, hal.HAL_OUT))
+		hal_glib.GPin(halcomp.newpin('tbl_offs_y_ab', hal.HAL_FLOAT, hal.HAL_OUT))
+		hal_glib.GPin(halcomp.newpin('tbl_offs_z_ab', hal.HAL_FLOAT, hal.HAL_OUT))
+                
+		hal_glib.GPin(halcomp.newpin('tbl_offs_x_cd', hal.HAL_FLOAT, hal.HAL_OUT))
+		hal_glib.GPin(halcomp.newpin('tbl_offs_y_cd', hal.HAL_FLOAT, hal.HAL_OUT))
+		hal_glib.GPin(halcomp.newpin('tbl_offs_z_cd', hal.HAL_FLOAT, hal.HAL_OUT))
+                
+		self.halcomp = halcomp
                 self.builder = builder
 		self.builder.get_object("togglebutton1").set_sensitive(False)
 		self.builder.get_object("togglebutton2").set_sensitive(False)
@@ -112,50 +125,40 @@ class multiTable:
 	def cycleStart(self,table=0,gcode_path=""):
 		
 		if table == 0:
-			self.offs_x1 = self.builder.get_object("exOffsABx").get_value()
-			self.offs_y1 = self.builder.get_object("exOffsABy").get_value()
-			self.offs_z1 = self.builder.get_object("exOffsABz").get_value()
+			self.offs_x1 = self.halcomp['tbl_offs_x_ab']
+			self.offs_y1 = self.halcomp['tbl_offs_y_ab']
+			self.offs_z1 = self.halcomp['tbl_offs_z_ab']
 			print ("=================Offsets Table AB==============")
 			print ("OffsX = " + str(self.offs_x1))
 			print ("OffsY = " + str(self.offs_y1))
 			print ("OffsZ = " + str(self.offs_z1))
 			print ("===============================================")
-			x1 = self.datum_x1 + self.offs_x1
-			y1 = self.datum_y1 + self.offs_y1
-			z1 = self.datum_z1 + self.offs_z1
-			mdi_str = "G10 L2 P1 X" + str(x1) + " Y" + str(y1) + " Z" + str(z1)
+			mdi_str = "G52 P1 X" + str(self.offs_x1) + " Y" + str(self.offs_y1) + " Z" + str(self.offs_z1) 
 			self.c.mode(linuxcnc.MODE_MDI)
 			self.c.wait_complete()
-#			self.c.mdi("M699") #reset
-#			self.c.wait_complete()
-			self.c.mdi(mdi_str)
 			self.c.mdi("G40G49G64")
+			self.c.mdi(mdi_str)
 			self.c.mdi("G91G28Z0.")
 			self.c.mdi("M335")
-			self.c.mdi("G54")
+			self.c.mdi("G54 G64 P0.015")
 			self.c.wait_complete()
 		if table == 1:
-			self.offs_x2 = self.builder.get_object("exOffsCDx").get_value()
-			self.offs_y2 = self.builder.get_object("exOffsCDy").get_value()
-			self.offs_z2 = self.builder.get_object("exOffsCDz").get_value()
+			self.offs_x2 = self.halcomp['tbl_offs_x_cd']
+			self.offs_y2 = self.halcomp['tbl_offs_y_cd']
+			self.offs_z2 = self.halcomp['tbl_offs_z_cd']
 			print ("=================Offsets Table CD==============")
 			print ("OffsX = " + str(self.offs_x2))
 			print ("OffsY = " + str(self.offs_y2))
 			print ("OffsZ = " + str(self.offs_z2))
 			print ("===============================================")
-			x2 = self.datum_x2 + self.offs_x2
-			y2 = self.datum_y2 + self.offs_y2
-			z2 = self.datum_z2 + self.offs_z2
-			mdi_str = "G10 L2 P1 X" + str(x2) + " Y" + str(y2) + " Z" + str(z2)
+			mdi_str = "G52 P2 X" + str(self.offs_x2) + " Y" + str(self.offs_y2) + " Z" + str(self.offs_z2) 
 			self.c.mode(linuxcnc.MODE_MDI)
 			self.c.wait_complete()
-#			self.c.mdi("M699") #reset
-#			self.c.wait_complete()
-			self.c.mdi(mdi_str)
 			self.c.mdi("G40G49G64")
+			self.c.mdi(mdi_str)
 			self.c.mdi("G91G28Z0.")
 			self.c.mdi("M335")
-			self.c.mdi("G54")
+			self.c.mdi("G54 G64 P0.015")
 			self.c.wait_complete()
 
 		self.builder.get_object("vcp_action_open1").load_file(gcode_path)
@@ -424,4 +427,12 @@ class multiTable:
         	self.cd_qty = 0
 		self.loadMultiProg()
 	
-	
+	def update1OnClick(self,gtkobj,data=None):
+		self.halcomp['tbl_offs_x_ab'] = self.builder.get_object("exOffsABx").get_value()
+		self.halcomp['tbl_offs_y_ab'] = self.builder.get_object("exOffsABy").get_value()
+		self.halcomp['tbl_offs_z_ab'] = self.builder.get_object("exOffsABz").get_value()
+
+	def update2OnClick(self,gtkobj,data=None):
+		self.halcomp['tbl_offs_x_cd'] = self.builder.get_object("exOffsCDx").get_value()
+		self.halcomp['tbl_offs_y_cd'] = self.builder.get_object("exOffsCDy").get_value()
+		self.halcomp['tbl_offs_z_cd'] = self.builder.get_object("exOffsCDz").get_value()

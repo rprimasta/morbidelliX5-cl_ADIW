@@ -1,63 +1,86 @@
 o<m205>sub
 (OFFSETS OVERRIDE)
 
-#<base_cord_x_ab> = 247.971 
-#<base_cord_y_ab> = -115.14
-#<base_cord_z_ab> = -322.8000 
+#<base_cord_x_ab> = #<_hal[paramx5.tbl_datum_x_ab]>
+#<base_cord_y_ab> = #<_hal[paramx5.tbl_datum_y_ab]>
+#<base_cord_z_ab> = #<_hal[paramx5.tbl_datum_z_ab]>
 
-#<base_cord_x_cd> = 2589.251 ;2593.511
-#<base_cord_y_cd> = -115.14
-#<base_cord_z_cd> = -322.8000 
+#<base_cord_x_cd> = #<_hal[paramx5.tbl_datum_x_cd]>
+#<base_cord_y_cd> = #<_hal[paramx5.tbl_datum_y_cd]>
+#<base_cord_z_cd> = #<_hal[paramx5.tbl_datum_z_cd]>
 
+#<offs_ab_x> = #<_hal[dtab.tbl_offs_x_ab]>
+#<offs_ab_y> = #<_hal[dtab.tbl_offs_y_ab]>
+#<offs_ab_z> = #<_hal[dtab.tbl_offs_z_ab]>
+
+#<offs_cd_x> = #<_hal[dtab.tbl_offs_x_cd]>
+#<offs_cd_y> = #<_hal[dtab.tbl_offs_y_cd]>
+#<offs_cd_z> = #<_hal[dtab.tbl_offs_z_cd]>
 
 #<offs_cord_x> = 0
 #<offs_cord_y> = 0
-#<offs_cord_z> = 0 
+#<offs_cord_z> = 0
 
 #<new_cord_x> = 0
 #<new_cord_y> = 0
 #<new_cord_z> = 0
 
+;==============validation=========================
 o1 if [EXISTS[#<P>]]
-	;(debug, #<P>)
+	o2 if[#<P> LT 1]
+		(abort,Parameter P hanya memiliki argumen 1 atau 2. 1 = meja AB, 2 = meja CD)
+	o2 endif
+	
+	o3 if[#<P> GT 2]
+		(abort,Parameter P hanya memiliki argumen 1 atau 2. 1 = meja AB, 2 = meja CD)
+	o3 endif
 o1 else
 	(abort,Parameter P harus ada)
 o1 endif
-
-o2 if [EXISTS[#<X>]]
-	#<offs_cord_x> = #<X> 
-o2 endif
-
-o3 if [EXISTS[#<Y>]]
-	#<offs_cord_y> = #<Y>
-o3 endif
-
-o4 if [EXISTS[#<Z>]]
-	#<offs_cord_z> = #<Z>
+;================table selector===================
+o4 if [EXISTS[#<x>]]
+	#<offs_cord_x> = #<x>
+o4 else	
+	o5 if[#<P> EQ 1]
+		#<offs_cord_x> = #<offs_ab_x>
+	o5 else
+		#<offs_cord_x> = #<offs_cd_x>
+	o5 endif 
 o4 endif
 
-o5 if[#<P> LT 1]
-	(abort,Parameter P hanya memiliki argumen 1 atau 2. 1 = meja AB, 2 = meja CD)
-o5 endif
-
-o6 if[#<P> GT 2]
-	(abort,Parameter P hanya memiliki argumen 1 atau 2. 1 = meja AB, 2 = meja CD)
+o6 if [EXISTS[#<y>]]
+	#<offs_cord_y> = #<y>
+o6 else	
+	o7 if[#<P> EQ 1]
+		#<offs_cord_y> = #<offs_ab_y>
+	o7 else
+		#<offs_cord_y> = #<offs_cd_y>
+	o7 endif 
 o6 endif
 
+o8 if [EXISTS[#<z>]]
+	#<offs_cord_z> = #<z>
+o8 else	
+	o9 if[#<P> EQ 1]
+		#<offs_cord_z> = #<offs_ab_z>
+	o9 else
+		#<offs_cord_z> = #<offs_cd_z>
+	o9 endif 
+o8 endif
+
+;=====================calculate offsets===================
 o10 if[#<P> EQ 1]
 	#<new_cord_x> = [#<base_cord_x_ab> + #<offs_cord_x>]
 	#<new_cord_y> = [#<base_cord_y_ab> + #<offs_cord_y>]
 	#<new_cord_z> = [#<base_cord_z_ab> + #<offs_cord_z>]
 o10 else
-
-o15 if[#<P> EQ 2]
 	#<new_cord_x> = [#<base_cord_x_cd> + #<offs_cord_x>]
 	#<new_cord_y> = [#<base_cord_y_cd> + #<offs_cord_y>]
 	#<new_cord_z> = [#<base_cord_z_cd> + #<offs_cord_z>]
-o15 endif
-
 o10 endif
-;(debug, koordinat baru : X#<new_cord_x> Y#<new_cord_y> Z#<new_cord_z>)
+
+;====================Apply Offsets======================
+(debug, koordinat baru 1 : X#<new_cord_x> Y#<new_cord_y> Z#<new_cord_z>)
 G10 L2 P1 X[#<new_cord_x>] Y[#<new_cord_y>] Z[#<new_cord_z>]
 
 o<m205>endsub

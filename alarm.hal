@@ -18,7 +18,7 @@ setp emergency.edge 0
 
 net al0 plc01.EM0 => emergency.trigger  
 net al1 plc01.AL0 => servogagal.trigger
-net al2 hm2_5i25.0.7i77.0.0.input-10-not => invertergagal.trigger
+#net al2 hm2_5i25.0.7i77.0.0.input-10 => invertergagal.trigger
 net al3 plc01.AL2 => drillbank_err.trigger
 net al4 plc01.AL3 => airpressure.trigger
 net al5 plc01.AL4 => oillow.trigger
