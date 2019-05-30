@@ -44,7 +44,7 @@ class multiTable:
 	cd_qty = 0
 
         def __init__(self,halcomp,builder,useropts):
-		self.inifile = linuxcnc.ini('/home/author/linuxcnc/configs/authorx5-cl/authorx5.ini')
+		self.inifile = linuxcnc.ini('/home/author/linuxcnc/configs/morbidelliX5-cl_ADIW/authorx5.ini')
 
 		#DATUM T1
 		self.datum_x1 = float(self.inifile.find('DTABLE', 'DATUM_X_AB'))
